@@ -1,0 +1,41 @@
+ /* ============================================================
+       DESIGN TOKENS — edit everything here first
+       ============================================================ */
+    :root {
+      /* Palette */
+      --clr-bg:              #0d0d12;
+      --clr-surface:         rgba(13, 13, 18, 0.82); /* content-box bg */
+      --clr-surface-solid:   #13131c;                /* opaque fallback  */
+      --clr-border:          rgba(255, 255, 255, 0.10);
+      --clr-accent:          #c8a96e;
+      --clr-text-primary:    #f0ece0;
+      --clr-text-body:       #a09880;
+      --clr-text-muted:      #4a4840;
+ 
+      /* Per-section SVG background tints */
+      --clr-s1-bg: #0a0f1a;
+      --clr-s2-bg: #080f0d;
+      --clr-s3-bg: #120a08;
+      --clr-s4-bg: #0d0812;
+      --clr-s5-bg: #111108;
+ 
+      /* Per-section accent colours */
+      --clr-s1: #5b8fd4;
+      --clr-s2: #6ec8a4;
+      --clr-s3: #c87a5b;
+      --clr-s4: #9b6ec8;
+      --clr-s5: #c8c36e;
+ 
+      /* Typography */
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --font-mono:    'DM Mono', 'Courier New', monospace;
+ 
+      /* Layout */
+      --content-box-width:  420px;   /* max-width of the floating text card  */
+      --content-box-margin: 4vw;     /* edge gap from viewport side           */
+      --radius:             10px;
+ 
+      /* Pin duration per section — override per-section below if needed */
+      --pin-vh: 500;                 /* unitless number; used in JS as vh     */
+    }

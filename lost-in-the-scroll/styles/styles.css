@@ -1,0 +1,404 @@
+ /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+ 
+    html { scroll-behavior: auto; }
+ 
+    body {
+      background: var(--clr-bg);
+      color: var(--clr-text-primary);
+      font-family: var(--font-body);
+      font-size: 16px;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+ 
+    /* ============================================================
+       FIXED CHROME
+       ============================================================ */
+    #progress-bar {
+      position: fixed;
+      top: 0; left: 0;
+      height: 2px;
+      width: 0%;
+      background: var(--clr-accent);
+      z-index: 300;
+      pointer-events: none;
+      transition: width 0.1s linear;
+    }
+ 
+    #chapter-nav {
+      position: fixed;
+      right: clamp(0.75rem, 2vw, 1.5rem);
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      z-index: 300;
+    }
+ 
+    .ch-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      transition: background 0.3s, transform 0.3s;
+      cursor: pointer;
+    }
+ 
+    .ch-dot.active {
+      background: var(--clr-accent);
+      transform: scale(1.5);
+    }
+ 
+    /* ============================================================
+       SHARED TEXT ELEMENTS
+       (used inside content-box in every section)
+       ============================================================ */
+    .kicker {
+      font-family: var(--font-mono);
+      font-size: clamp(9px, 1.2vw, 11px);
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: 0.85rem;
+      opacity: 0; /* GSAP animates in */
+    }
+ 
+    .section-headline {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3.5vw, 2.6rem);
+      font-weight: 700;
+      line-height: 1.1;
+      color: var(--clr-text-primary);
+      margin-bottom: 1rem;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+ 
+    .section-body {
+      font-size: clamp(0.9rem, 1.8vw, 1rem);
+      line-height: 1.85;
+      color: var(--clr-text-body);
+      opacity: 0;
+      transform: translateY(16px);
+    }
+ 
+    /* ============================================================
+       CONTENT BOX — floating card layered over SVG
+       ============================================================ */
+    .content-box {
+      background: var(--clr-surface);
+      -webkit-backdrop-filter: blur(14px);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--clr-border);
+      border-radius: var(--radius);
+      padding: clamp(1.4rem, 3vw, 2.2rem);
+      width: 100%;
+      max-width: var(--content-box-width);
+      /* GSAP will animate opacity in — start hidden */
+      opacity: 0;
+    }
+ 
+    /* ============================================================
+       SVG CANVAS — full viewport, fills every section
+       ============================================================ */
+    .svg-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+ 
+    .svg-canvas svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+ 
+    /* Debug helpers — visible placeholder elements */
+    .svg-debug-rect {
+      fill: none;
+      stroke: rgba(255,255,255,0.06);
+      stroke-width: 1;
+      stroke-dasharray: 8 5;
+    }
+ 
+    .svg-placeholder-label {
+      font-family: 'DM Mono', monospace;
+      font-size: 14px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+ 
+    /* ============================================================
+       STICKY SCENE — base for all pinned sections
+       position:relative so absolute children (SVG, text overlay)
+       are scoped to it.
+       ============================================================ */
+    .sticky-scene {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      width: 100%;
+      overflow: hidden;
+      /* Each section sets its own background via data-section attr */
+    }
+ 
+    /* pin-wrap: sets the total scroll distance the pin consumes.
+       Height is driven by --pin-vh token; override per-section with
+       a style attribute:  <div class="pin-wrap" style="--pin-vh:700"> */
+    .pin-wrap {
+      /* height computed in JS from --pin-vh; set here as fallback */
+      height: calc(var(--pin-vh, 500) * 1vh);
+      position: relative;
+    }
+ 
+    /* ============================================================
+       TEXT OVERLAY LAYER
+       Absolutely fills the sticky-scene; contains the content-box.
+       Three layout variants:
+         .text-overlay--right   (default)
+         .text-overlay--left
+         .text-overlay--center
+       ============================================================ */
+    .text-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      pointer-events: none; /* let clicks pass through to SVG */
+    }
+ 
+    .text-overlay .content-box {
+      pointer-events: auto;
+    }
+ 
+    /* RIGHT variant */
+    .text-overlay--right {
+      justify-content: flex-end;
+      padding-right: var(--content-box-margin);
+    }
+ 
+    /* LEFT variant */
+    .text-overlay--left {
+      justify-content: flex-start;
+      padding-left: var(--content-box-margin);
+    }
+ 
+    /* CENTER variant */
+    .text-overlay--center {
+      justify-content: center;
+      padding-inline: var(--content-box-margin);
+    }
+ 
+    .text-overlay--center .content-box {
+      text-align: center;
+      max-width: 560px;
+    }
+ 
+    /* ============================================================
+       HERO — full-viewport, SVG behind, text centered on top
+       ============================================================ */
+    #hero {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+ 
+    /* Hero SVG fills the whole section */
+    #hero .svg-canvas {
+      background: var(--clr-bg);
+    }
+ 
+    /* Hero text sits above SVG */
+    #hero .hero-text {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem clamp(1.5rem, 6vw, 4rem);
+    }
+ 
+    #hero .hero-kicker {
+      font-family: var(--font-mono);
+      font-size: clamp(9px, 1.2vw, 11px);
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--clr-accent);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+    }
+ 
+    #hero h1 {
+      font-family: var(--font-display);
+      font-size: clamp(3rem, 9vw, 7.5rem);
+      font-weight: 700;
+      line-height: 1.0;
+      color: var(--clr-text-primary);
+      max-width: 900px;
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+ 
+    #hero h1 em {
+      font-style: italic;
+      color: var(--clr-accent);
+    }
+ 
+    #hero .hero-subtitle {
+      font-size: clamp(1rem, 2.2vw, 1.2rem);
+      line-height: 1.75;
+      color: var(--clr-text-body);
+      max-width: 540px;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+ 
+    #hero .scroll-cue {
+      position: absolute;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      opacity: 0;
+      z-index: 10;
+    }
+ 
+    /* ============================================================
+       SECTION BACKGROUND COLOURS
+       Applied to each .sticky-scene via section wrapper colour
+       ============================================================ */
+    #section-1 .sticky-scene { background: var(--clr-s1-bg); }
+    #section-2 .sticky-scene { background: var(--clr-s2-bg); }
+    #section-3 .sticky-scene { background: var(--clr-s3-bg); }
+    #section-4 .sticky-scene { background: var(--clr-s4-bg); }
+    #section-5 .sticky-scene { background: var(--clr-s5-bg); }
+ 
+    /* Subtle top border accent per section */
+    #section-1 .sticky-scene { border-top: 1px solid rgba(91,143,212,0.25); }
+    #section-2 .sticky-scene { border-top: 1px solid rgba(110,200,164,0.25); }
+    #section-3 .sticky-scene { border-top: 1px solid rgba(200,122,91,0.25); }
+    #section-4 .sticky-scene { border-top: 1px solid rgba(155,110,200,0.25); }
+    #section-5 .sticky-scene { border-top: 1px solid rgba(200,195,110,0.25); }
+ 
+    /* ============================================================
+       INTER-SECTION TRANSITION STRIP
+       A short full-width band between pinned sections.
+       Keeps them from abruptly colliding.
+       ============================================================ */
+    .section-gap {
+      height: 30vh;              /* adjust: less = tighter transitions */
+      background: var(--clr-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+ 
+    .section-gap-label {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      opacity: 0.4;
+    }
+ 
+    /* ============================================================
+       FOOTER — full-viewport, SVG behind, text centered on top
+       ============================================================ */
+    #footer {
+      position: relative;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+ 
+    #footer .svg-canvas {
+      background: var(--clr-bg);
+    }
+ 
+    #footer .footer-text {
+      position: relative;
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem clamp(1.5rem, 6vw, 4rem);
+    }
+ 
+    #footer .footer-label {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      letter-spacing: 5px;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      margin-bottom: 1.75rem;
+      opacity: 0;
+    }
+ 
+    #footer h2 {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 5vw, 3.5rem);
+      font-weight: 400;
+      color: var(--clr-text-primary);
+      max-width: 600px;
+      line-height: 1.15;
+      margin-bottom: 1.25rem;
+      opacity: 0;
+      transform: translateY(24px);
+    }
+ 
+    #footer p.footer-body {
+      font-size: clamp(0.95rem, 2vw, 1.05rem);
+      color: var(--clr-text-body);
+      max-width: 400px;
+      opacity: 0;
+    }
+ 
+    #footer .footer-credit {
+      position: absolute;
+      bottom: 1.75rem;
+      font-family: var(--font-mono);
+      font-size: 9px;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--clr-text-muted);
+      z-index: 10;
+    }
+ 
+    /* ============================================================
+       RESPONSIVE — collapse text overlay on narrow viewports
+       ============================================================ */
+    @media (max-width: 640px) {
+      .text-overlay {
+        align-items: flex-end;
+        justify-content: center !important;
+        padding-inline: 1rem !important;
+        padding-bottom: 2rem;
+      }
+ 
+      .content-box {
+        max-width: 100%;
+      }
+ 
+      #chapter-nav { display: none; }
+    }

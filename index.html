@@ -1,16 +1,302 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lost in the Scroll</title>
-    <link rel="stylesheet" href="styles/tokens.css">
-    <link rel="stylesheet" href="styles/styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lost in the Scroll</title>
+ 
+  <!-- ============================================================
+       GOOGLE FONTS — swap this import to change typefaces
+       ============================================================ -->
+  <link rel="stylesheet" href="lost-in-the-scroll/styles/tokens.css" />
+  <link rel="stylesheet" href="lost-in-the-scroll/styles/styles.css" />   
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&family=DM+Mono:wght@400&display=swap" rel="stylesheet" />
+  <script type="importmap">
+  {
+    "imports": {
+      "gsap": "/node_modules/gsap/index.js",
+      "gsap/ScrollTrigger": "/node_modules/gsap/ScrollTrigger.js"
+    }
+  }
+  </script>
 </head>
 <body>
-    <main>
-        <h1>Lost in the Scroll</h1>
+ 
+  <!-- Fixed chrome -->
+  <div id="progress-bar"></div>
+  <nav id="chapter-nav" aria-label="Chapter navigation"></nav>
+ 
+ 
+  <!-- ============================================================
+       HERO
+       SVG fills the viewport; hero text floats above it.
+       ============================================================ -->
+  <section id="hero">
+ 
+    <!-- SVG canvas — full viewport background -->
+    <div class="svg-canvas">
+      <svg
+        id="svg-hero"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <!-- DEBUG: bounding box + label — remove before publishing -->
+        <rect class="svg-debug-rect" x="1" y="1" width="1438" height="898"/>
+        <text class="svg-placeholder-label" x="50%" y="50%" text-anchor="middle"
+          dominant-baseline="middle" fill="rgba(255,255,255,0.08)">SVG · Hero</text>
+        <!-- ↑ replace with your actual SVG artwork -->
+      </svg>
+    </div>
+ 
+    <!-- Hero text -->
+    <div class="hero-text">
+      <p class="hero-kicker">Your Publication · Season One</p>
+      <h1>A story told through <em>scroll</em></h1>
+      <p class="hero-subtitle">
+        This is the subtitle. One or two compelling sentences that give
+        readers a reason to keep scrolling. Replace this with your real hook.
+      </p>
+    </div>
+ 
+    <p class="scroll-cue">↓ scroll to begin</p>
+  </section>
+ 
+ 
+  <!-- ============================================================
+       SECTION 1 — text RIGHT (default)
+       --pin-vh override: set a custom scroll distance for this section
+       ============================================================ -->
+  <div id="section-1" class="pin-wrap">
+    <div class="sticky-scene">
+ 
+      <!-- Full-viewport SVG canvas -->
+      <div class="svg-canvas">
+        <svg
+          id="svg-s1"
+          viewBox="0 0 1440 900"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <rect class="svg-debug-rect" x="1" y="1" width="1438" height="898"/>
+          <text class="svg-placeholder-label" x="50%" y="50%" text-anchor="middle"
+            dominant-baseline="middle" fill="rgba(91,143,212,0.18)">SVG · Section 1</text>
+        </svg>
+      </div>
+ 
+      <!-- Text overlay — RIGHT variant -->
+      <div class="text-overlay text-overlay--right">
+        <div class="content-box">
+          <p class="kicker">Chapter 01 — Opening</p>
+          <h2 class="section-headline">Section one headline goes here</h2>
+          <p class="section-body">
+            Body copy for section one. The content-box is layered over the
+            full-viewport SVG canvas. This variant is right-aligned.
+            Swap <code>text-overlay--right</code> to <code>--left</code>
+            or <code>--center</code> for other layouts.
+          </p>
+        </div>
+      </div>
+ 
+    </div>
+  </div><!-- /section-1 -->
+ 
+  <div class="section-gap"><span class="section-gap-label">§</span></div>
+ 
+ 
+  <!-- ============================================================
+       SECTION 2 — text LEFT
+       ============================================================ -->
+  <div id="section-2" class="pin-wrap">
+    <div class="sticky-scene">
+ 
+      <div class="svg-canvas">
+        <svg
+          id="svg-s2"
+          viewBox="0 0 1440 900"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <rect class="svg-debug-rect" x="1" y="1" width="1438" height="898"/>
+          <text class="svg-placeholder-label" x="50%" y="50%" text-anchor="middle"
+            dominant-baseline="middle" fill="rgba(110,200,164,0.18)">SVG · Section 2</text>
+        </svg>
+      </div>
+ 
+      <!-- Text overlay — LEFT variant -->
+      <div class="text-overlay text-overlay--left">
+        <div class="content-box">
+          <p class="kicker">Chapter 02 — Development</p>
+          <h2 class="section-headline">Section two headline goes here</h2>
+          <p class="section-body">
+            Body copy for section two. This variant is left-aligned —
+            useful when the interesting part of the SVG is on the right.
+            The backdrop-blur glass effect keeps the text legible over
+            any artwork.
+          </p>
+        </div>
+      </div>
+ 
+    </div>
+  </div><!-- /section-2 -->
+ 
+  <div class="section-gap"><span class="section-gap-label">§</span></div>
+ 
+ 
+  <!-- ============================================================
+       SECTION 3 — text CENTER
+       ============================================================ -->
+  <div id="section-3" class="pin-wrap">
+    <div class="sticky-scene">
+ 
+      <div class="svg-canvas">
+        <svg
+          id="svg-s3"
+          viewBox="0 0 1440 900"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <rect class="svg-debug-rect" x="1" y="1" width="1438" height="898"/>
+          <text class="svg-placeholder-label" x="50%" y="50%" text-anchor="middle"
+            dominant-baseline="middle" fill="rgba(200,122,91,0.18)">SVG · Section 3</text>
+        </svg>
+      </div>
+ 
+      <!-- Text overlay — CENTER variant -->
+      <div class="text-overlay text-overlay--center">
+        <div class="content-box">
+          <p class="kicker">Chapter 03 — Tension</p>
+          <h2 class="section-headline">Section three headline goes here</h2>
+          <p class="section-body">
+            Body copy for section three. The centered variant works well for
+            dramatic reveals where the SVG action fills the entire canvas
+            behind the text.
+          </p>
+        </div>
+      </div>
+ 
+    </div>
+  </div><!-- /section-3 -->
+ 
+  <div class="section-gap"><span class="section-gap-label">§</span></div>
+ 
+ 
+  <!-- ============================================================
+       SECTION 4 — text RIGHT
+       Custom pin distance example: add style="--pin-vh:600" to
+       the .pin-wrap div to give this section more scroll room.
+       ============================================================ -->
+  <div id="section-4" class="pin-wrap">
+    <div class="sticky-scene">
+ 
+      <div class="svg-canvas">
+        <svg
+          id="svg-s4"
+          viewBox="0 0 1440 900"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <rect class="svg-debug-rect" x="1" y="1" width="1438" height="898"/>
+          <text class="svg-placeholder-label" x="50%" y="50%" text-anchor="middle"
+            dominant-baseline="middle" fill="rgba(155,110,200,0.18)">SVG · Section 4</text>
+        </svg>
+      </div>
+ 
+      <!-- Text overlay — RIGHT variant -->
+      <div class="text-overlay text-overlay--right">
+        <div class="content-box">
+          <p class="kicker">Chapter 04 — Climax</p>
+          <h2 class="section-headline">Section four headline goes here</h2>
+          <p class="section-body">
+            Body copy for section four. To give this section more scroll
+            distance independently, add <code>style="--pin-vh:600"</code>
+            to its <code>.pin-wrap</code> element.
+          </p>
+        </div>
+      </div>
+ 
+    </div>
+  </div><!-- /section-4 -->
+ 
+  <div class="section-gap"><span class="section-gap-label">§</span></div>
+ 
+ 
+  <!-- ============================================================
+       SECTION 5 — text LEFT
+       ============================================================ -->
+  <div id="section-5" class="pin-wrap">
+    <div class="sticky-scene">
+ 
+      <div class="svg-canvas">
+        <svg
+          id="svg-s5"
+          viewBox="0 0 1440 900"
+          preserveAspectRatio="xMidYMid slice"
+          xmlns="http://www.w3.org/2000/svg"
+          aria-hidden="true"
+        >
+          <rect class="svg-debug-rect" x="1" y="1" width="1438" height="898"/>
+          <text class="svg-placeholder-label" x="50%" y="50%" text-anchor="middle"
+            dominant-baseline="middle" fill="rgba(200,195,110,0.18)">SVG · Section 5</text>
+        </svg>
+      </div>
+ 
+      <!-- Text overlay — LEFT variant -->
+      <div class="text-overlay text-overlay--left">
+        <div class="content-box">
+          <p class="kicker">Chapter 05 — Resolution</p>
+          <h2 class="section-headline">Section five headline goes here</h2>
+          <p class="section-body">
+            Body copy for section five — the closing beat. Use this to land
+            the story's key takeaway before the reader reaches the footer.
+            Keep it punchy.
+          </p>
+        </div>
+      </div>
+ 
+    </div>
+  </div><!-- /section-5 -->
+ 
+ 
+  <!-- ============================================================
+       FOOTER
+       Same pattern as hero: SVG fills viewport, text above it.
+       ============================================================ -->
+  <footer id="footer">
+ 
+    <div class="svg-canvas">
+      <svg
+        id="svg-footer"
+        viewBox="0 0 1440 900"
+        preserveAspectRatio="xMidYMid slice"
+        xmlns="http://www.w3.org/2000/svg"
+        aria-hidden="true"
+      >
+        <rect class="svg-debug-rect" x="1" y="1" width="1438" height="898"/>
+        <text class="svg-placeholder-label" x="50%" y="50%" text-anchor="middle"
+          dominant-baseline="middle" fill="rgba(255,255,255,0.06)">SVG · Footer</text>
+      </svg>
+    </div>
+ 
+    <div class="footer-text">
+      <p class="footer-label">End of story</p>
+      <h2>Your closing thought or call to action</h2>
+      <p class="footer-body">
+        A brief note, a link, a byline — whatever the story demands.
+        Replace this placeholder text with your real outro.
+      </p>
+    </div>
+ 
+    <p class="footer-credit">Built with GSAP ScrollTrigger</p>
+  </footer>
     </main>
-    <script src="scripts/main.js"></script>
+    <script type="module" src="lost-in-the-scroll/scripts/main.js"></script>
 </body>
 </html>

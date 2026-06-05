@@ -1,0 +1,27 @@
+{
+  "name": "scrollyteller-site",
+  "version": "1.0.0",
+  "description": "Student-facing repo for final project execution and turn-in.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/IanSzymanski/Scrollyteller-Site.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/IanSzymanski/Scrollyteller-Site/issues"
+  },
+  "homepage": "https://github.com/IanSzymanski/Scrollyteller-Site#readme",
+  "dependencies": {
+    "gsap": "^3.15.0"
+  }
+}
