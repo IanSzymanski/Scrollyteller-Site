@@ -264,10 +264,31 @@ sectionTimelines['section-3']
   .to('.curtains',  {opacity: 0.8, x: '0vw', transformOrigin: 'center',scaleY: 0.5, duration: 8, ease: 'back'}, 0)
   .to('.mouthpiece',  {rotate: 360, transformOrigin: 'center', scale: 1,x: '30vw', duration: 2, ease: 'back'}, 2)
   .to('.mouthpiece',  {rotate: 0, scale: 0.7, duration: 3, ease: 'bounce.out'}, 4)
-  
-  
   ;
 
+gsap.timeline()
+sectionTimelines['section-4']
+  .fromTo('.triangle-Bottom',
+        { y: '60vh', opacity: 1 },
+        { y: '-55vh', x: '-5vw', duration: 5, ease: 'power2.out' }, 0)
+      .fromTo('.triangle-Middle',
+        { y: '100vh', opacity: 1 },
+        { y: '-55vh', x: '-5vw', duration: 5, ease: 'power2.out' }, 0)
+      .fromTo('.triangle-Top',
+        { y: '150vh', opacity: 1 },
+        { y: '-55vh', x: '-5vw', duration: 5, ease: 'power2.out' }, 0)
+  .to('.tuningSlide',  {y: '-2vh', opacity: 1,duration: 2, ease: 'back'}, 0.5)
+  .to('.tuningSlide-Outer',  {y: '6vh', duration: 1, ease: 'back'}, 3)
+  .to('.tuningSlide-Outer',  {y: '-2vh', duration: 1, ease: 'back'}, 4)
+  .to('.tuningSlide-Outer',  {y: '1vh', duration: 1, ease: 'elastic'}, 5)
+  .to('.burst',  {scaleX: 1, x: '-1vw', opacity: 1, transformOrigin: 'right', rotate: -10, duration: 1, ease: 'elastic'}, 5.5)
+   .to('.triangle-Top',  {x: '-40vw', rotate: 20, duration: 2, ease: 'back.in'}, 4)
+   .to('.triangle-Middle',  {x: '-60vw', rotate: 20,duration: 2, ease: 'back.in'}, 4.1)
+   .to('.triangle-Bottom',  {x: '-100vw', rotate: 20, duration: 2, ease: 'back.in'}, 4.2)
+
+
+
+  ;
 
 
 
