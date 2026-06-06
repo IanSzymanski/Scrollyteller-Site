@@ -60,5 +60,18 @@
               transform: translate(10vw, 4vh);
        }
        .row-Triangle {
-              transform: translateY(-10vh);
+              transform: translateY(-12vh);
+       }
+
+ /* ============================================================
+       SECTION 2
+       ============================================================ */
+
+       .curtains {
+              transform: scale(0.8) translateX(-40vw);
+              opacity: 0;
+       }
+
+       .mouthpiece {
+              transform: scale(0.7) translate(150vw, 20vh);
        }

@@ -214,11 +214,13 @@ document.querySelectorAll('.pin-wrap').forEach(wrap => {
       .to(heading, { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, 2.6)
       .to(body,    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 3.2)
       .to('.slide',{ opacity: 1, x: '29vw',duration: 2, ease: 'elastic' }, 2)
-      .to('.outer-Slide',{x: '-4vw',duration: 1, ease: 'back' }, 4)
-      .to('.outer-Slide',{x: '-8vw',duration: 1, ease: 'back' }, 5)
-      .to('.outer-Slide',{x: '-25vw',duration: 2, ease: 'back' }, 6)
-      .to('.outer-Slide',{opacity: 0, rotate: -50, transformOrigin: 'center', y: '20vw', x: '-70vw', duration: 2, ease: 'ease' }, 6.5)
-      .to('.inner-Slide',{opacity: 0, x: '20vw', duration: 1, ease: 'ease' }, 8);
+      .to('.outer-Slide',{x: '-9vw',duration: 1, ease: 'back' }, 4)
+      .to('.outer-Slide',{x: '-5vw',duration: 1, ease: 'back' }, 5)
+      .to('.outer-Slide',{x: '-13vw',duration: 1, ease: 'back' }, 6)
+      .to('.outer-Slide',{x: '-4vw',duration: 2, ease: 'ease' }, 7)
+      .to('.outer-Slide',{x: '-25vw',duration: 2, ease: 'back.out' }, 9)
+      .to('.outer-Slide',{opacity: 0, rotate: -30, transformOrigin: 'center', y: '20vw', x: '-70vw', duration: 2, ease: 'ease' }, 9.5)
+      .to('.inner-Slide',{opacity: 0, x: '20vw', duration: 1, ease: 'ease' }, 11);
 
       } else {
     tl
@@ -247,17 +249,24 @@ document.querySelectorAll('.pin-wrap').forEach(wrap => {
 // Section 2
 
 gsap.timeline()
-
-;
 sectionTimelines['section-2']
   .to('.triangle-Bar',  {x: '0vw', duration: 5, ease: 'back'}, 0.5)
   .to('.row-Triangle',  {y: 0, stagger: 0.2, duration: 1, ease: 'back'}, 0.0)
   .to('.staff-End',  {y: '0.01vh', duration: 0.1, ease: 'ease' }, 0.1)
-  .to('.staff-Line', {x: '0vw', stagger: -0.3, duration: 1, ease: 'ease' }, 1.0 )
-  .to('.staff-End',  {scale: 1, duration: 1.3, ease: 'ease' }, 2)
-  .to('.note',       {opacity: 1, y: 0,stagger: 0.5, duration: 1, ease: 'bounce' }, 1.5);
+  .to('.staff-Line', {x: '0vw', stagger: -0.3, duration: 1, ease: 'ease' }, 3.0 )
+  .to('.staff-End',  {scale: 1, duration: 1.3, ease: 'ease' }, 4)
+  .to('.note',       {opacity: 1, y: 0,stagger: 0.5, duration: 1, ease: 'bounce' }, 3.5);
 
+// Section 3
 
+gsap.timeline()
+sectionTimelines['section-3']
+  .to('.curtains',  {opacity: 0.8, x: '0vw', transformOrigin: 'center',scaleY: 0.5, duration: 8, ease: 'back'}, 0)
+  .to('.mouthpiece',  {rotate: 360, transformOrigin: 'center', scale: 1,x: '30vw', duration: 2, ease: 'back'}, 2)
+  .to('.mouthpiece',  {rotate: 0, scale: 0.7, duration: 3, ease: 'bounce.out'}, 4)
+  
+  
+  ;
 
 
 
