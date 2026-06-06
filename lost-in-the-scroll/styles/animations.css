@@ -17,14 +17,6 @@
 
 /* ============================================================
        SECTION 1
+       bar-Back / bar-Mid / bar-Front initial state is set by
+       GSAP fromTo — no CSS opacity needed here.
        ============================================================ */
-
-         .bar-Back {
-          opacity: 0;
-         }
-            .bar-Mid {
-            opacity: 0;
-            }
-               .bar-Front {
-                opacity: 0;
-               }
