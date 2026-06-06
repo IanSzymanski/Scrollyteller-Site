@@ -255,13 +255,13 @@ sectionTimelines['section-2']
   .to('.staff-End',  {y: '0.01vh', duration: 0.1, ease: 'ease' }, 0.1)
   .to('.staff-Line', {x: '0vw', stagger: -0.3, duration: 1, ease: 'ease' }, 3.0 )
   .to('.staff-End',  {scale: 1, duration: 1.3, ease: 'ease' }, 4)
-  .to('.note',       {opacity: 1, y: 0,stagger: 0.5, duration: 1, ease: 'bounce' }, 3.5);
+  .to('.note',       {opacity: 1, y: 0,stagger: 0.5, duration: 3, ease: 'bounce' }, 3.5);
 
 // Section 3
 
 gsap.timeline()
 sectionTimelines['section-3']
-  .to('.curtains',  {opacity: 0.8, x: '0vw', transformOrigin: 'center',scaleY: 0.5, duration: 8, ease: 'back'}, 0)
+  .to('.curtains',  {opacity: 0.8, x: '0vw', transformOrigin: 'center',scaleY: 0.5, duration: 10, ease: 'back'}, 0)
   .to('.mouthpiece',  {rotate: 360, transformOrigin: 'center', scale: 1,x: '30vw', duration: 2, ease: 'back'}, 2)
   .to('.mouthpiece',  {rotate: 0, scale: 0.7, duration: 3, ease: 'bounce.out'}, 4)
   ;
@@ -281,13 +281,10 @@ sectionTimelines['section-4']
   .to('.tuningSlide-Outer',  {y: '6vh', duration: 1, ease: 'back'}, 3)
   .to('.tuningSlide-Outer',  {y: '-2vh', duration: 1, ease: 'back'}, 4)
   .to('.tuningSlide-Outer',  {y: '1vh', duration: 1, ease: 'elastic'}, 5)
-  .to('.burst',  {scaleX: 1, x: '-1vw', opacity: 1, transformOrigin: 'right', rotate: -10, duration: 1, ease: 'elastic'}, 5.5)
+  .to('.burst',  {scaleX: 1, x: '-1vw', opacity: 1, transformOrigin: 'right', rotate: -10, duration: 3, ease: 'elastic'}, 5.5)
    .to('.triangle-Top',  {x: '-40vw', rotate: 20, duration: 2, ease: 'back.in'}, 4)
    .to('.triangle-Middle',  {x: '-60vw', rotate: 20,duration: 2, ease: 'back.in'}, 4.1)
    .to('.triangle-Bottom',  {x: '-100vw', rotate: 20, duration: 2, ease: 'back.in'}, 4.2)
-
-
-
   ;
 
 
