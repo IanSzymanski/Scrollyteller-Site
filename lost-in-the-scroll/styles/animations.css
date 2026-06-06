@@ -45,10 +45,12 @@
 
          .staff-Line {
               transform: translateX(-60vw);
+              stroke: var(--surface-dark);
          }
          .staff-End {
               transform: scaleY(0);
               transform-origin: top;
+              stroke: var(--surface-dark);
          }
             .note {
             opacity: 0;
