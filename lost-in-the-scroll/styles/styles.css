@@ -186,12 +186,7 @@
       /* Each section sets its own background via data-section attr */
     }
  
-    /* pin-wrap: sets the total scroll distance the pin consumes.
-       Height is driven by --pin-vh token; override per-section with
-       a style attribute:  <div class="pin-wrap" style="--pin-vh:700"> */
     .pin-wrap {
-      /* height computed in JS from --pin-vh; set here as fallback */
-      height: calc(var(--pin-vh, 500) * 1vh);
       position: relative;
     }
  
@@ -308,7 +303,7 @@
        Keeps them from abruptly colliding.
        ============================================================ */
     .section-gap {
-      height: 10vh;              /* adjust: less = tighter transitions */
+      height: 10vh;
       display: flex;
       align-items: center;
       justify-content: center;

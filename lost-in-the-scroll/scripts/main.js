@@ -3,14 +3,14 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 /* ============================================================
      CONFIG
-     Central object — edit values here rather than hunting through code.
      ============================================================ */
   const CONFIG = {
-    pinVh:       100,    /* default scroll distance per section (vh units)  */
-    scrub:       1,      /* scrub lag in seconds; 0 = instant               */
-    gapVh:       30,     /* section-gap height in vh (must match CSS)       */
-    anticipate:  1,      /* anticipatePin value for ScrollTrigger           */
-  };
+  pinStart: 'top top',       /* when the scene locks to the viewport   */
+  pinEnd:   '+=1000vh',       /* how far to scroll before it unpins     */
+  scrub:    1,
+  gapVh:    0,
+  anticipate: 1,
+};
  
   /* ============================================================
      SETUP
@@ -25,6 +25,18 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
     wrap.style.setProperty('--pin-vh', vh);
     wrap.style.height = `${vh}vh`;
   });
+
+  /* Set gap heights from CONFIG so they stay in sync with ScrollTrigger */
+document.querySelectorAll('.section-gap').forEach(gap => {
+  gap.style.height = `${CONFIG.gapVh}vh`;
+});
+
+/* Re-apply after ScrollTrigger finishes its first layout pass */
+ScrollTrigger.addEventListener('refresh', () => {
+  document.querySelectorAll('.section-gap').forEach(gap => {
+    gap.style.height = `${CONFIG.gapVh}vh`;
+  });
+});
  
   /* ── Progress bar ─────────────────────────────────────────────── */
   const progressBar = document.getElementById('progress-bar');
@@ -110,42 +122,45 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   const sectionTimelines = {};
  
   document.querySelectorAll('.pin-wrap').forEach(wrap => {
-    const id      = wrap.id;
-    const scene   = wrap.querySelector('.sticky-scene');
-    const svgEl   = wrap.querySelector('svg');
-    const box     = wrap.querySelector('.content-box');
-    const kicker  = wrap.querySelector('.kicker');
-    const heading = wrap.querySelector('.section-headline');
-    const body    = wrap.querySelector('.section-body');
- 
-    /* Per-section pin distance */
-    const vh     = parseFloat(wrap.style.getPropertyValue('--pin-vh')) || CONFIG.pinVh;
-    const pinEnd = `+=${vh}vh`;
- 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger:      scene,
-        start:        'top top',
-        end:          pinEnd,
-        pin:          true,
-        scrub:        CONFIG.scrub,
-        anticipatePin: CONFIG.anticipate,
-        /* markers: true, */ /* ← uncomment to debug trigger positions */
-      }
-    });
- 
-    /* Entrance sequence */
-    tl.to(svgEl,   { opacity: 1, duration: 0.20 }, 0.00)
-      .to(box,     { opacity: 1, y: 0,duration: 0.10 }, 0.05)
-      .to(kicker,  { opacity: 1, duration: 0.10 }, 0.08)
-      .to(heading, { opacity: 1, y: 0, duration: 0.16, ease: 'power3.out' }, 0.14)
-      .to(body,    { opacity: 1, y: 0, duration: 0.14, ease: 'power2.out' }, 0.28);
- 
-    /* Reserve space for SVG animations (0.55 → 1.0) — add via block below */
-    tl.to({}, { duration: 0.45 }, 0.55); /* placeholder keep total = 1 */
- 
-    sectionTimelines[id] = tl;
+  const id      = wrap.id;
+  const scene   = wrap.querySelector('.sticky-scene');
+  const svgEl   = wrap.querySelector('svg');
+  const box     = wrap.querySelector('.content-box');
+  const kicker  = wrap.querySelector('.kicker');
+  const heading = wrap.querySelector('.section-headline');
+  const body    = wrap.querySelector('.section-body');
+
+  /* Per-section end override — add data-pin-end="+=600vh" to the
+     .pin-wrap element to give a single section more room          */
+  const pinEnd   = wrap.dataset.pinEnd || CONFIG.pinEnd;
+
+  /* Derive wrap height from the end string so the document flow
+     matches what ScrollTrigger expects                            */
+  const pinVh    = parseFloat(pinEnd.replace('+=', '')) || 400;
+  wrap.style.height = `${pinVh}`;   /* pinEnd already includes vh units */
+
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger:       scene,
+      start:         CONFIG.pinStart,
+      end:           pinEnd,
+      pin:           true,
+      scrub:         CONFIG.scrub,
+      anticipatePin: CONFIG.anticipate,
+      markers: true,
+    }
   });
+
+  tl.to(svgEl,   { opacity: 1, duration: 0.20 }, 0.00)
+    .to(box,     { opacity: 1, y: 0, duration: 0.10 }, 0.05)
+    .to(kicker,  { opacity: 1, duration: 0.10 }, 0.08)
+    .to(heading, { opacity: 1, y: 0, duration: 0.16, ease: 'power3.out' }, 0.14)
+    .to(body,    { opacity: 1, y: 0, duration: 0.14, ease: 'power2.out' }, 0.28);
+
+  tl.to({}, { duration: 0.45 }, 0.55);
+
+  sectionTimelines[id] = tl;
+});
  
   /* ============================================================
      SECTION SVG ANIMATIONS
@@ -167,8 +182,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
      ============================================================ */
  
   /* Section 1 */
-  // sectionTimelines['section-1']
-  //   .from('#svg-s1 .my-shape', { opacity: 0, duration: 0.2 }, 0.55);
+ sectionTimelines['section-1']
  
   /* Section 2 */
   // sectionTimelines['section-2']
