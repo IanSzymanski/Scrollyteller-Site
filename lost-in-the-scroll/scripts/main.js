@@ -266,6 +266,8 @@ sectionTimelines['section-3']
   .to('.mouthpiece',  {rotate: 0, scale: 0.7, duration: 3, ease: 'bounce.out'}, 4)
   ;
 
+  // Section 4
+
 gsap.timeline()
 sectionTimelines['section-4']
   .fromTo('.triangle-Bottom',
@@ -287,7 +289,20 @@ sectionTimelines['section-4']
    .to('.triangle-Bottom',  {x: '-100vw', rotate: 20, duration: 2, ease: 'back.in'}, 4.2)
   ;
 
-
+  // Section 5
+gsap.timeline()
+sectionTimelines['section-5']
+  .to('.fullBone',  {x: '15vw', rotate: -15, duration: 3, ease: 'back'}, 0.1)
+   .to('.top',  {opacity: 1, duration: 0, ease: 'ease'}, 0.0)
+   .to('.bottom',  {y: '22vw', scaleX: 1, duration: 9, ease: 'ease'}, 0.1)
+   .to('.top',  {y: '30vh', scaleX: 2, duration: 4, ease: 'ease'}, 1)
+  .to('.fullSlide',  {x: '-10vw', duration: 1.5, ease: 'back'}, 1.8)
+  .to('.fullBone',  {y: '15vh', rotate: 15, duration: 3, ease: 'back'}, 3.1)
+  .to('.fullSlide',  {x: '0vw', duration: 1.5, ease: 'back'}, 3.3)
+  .to('.fullBone',  {y: '-30vh', x: '30vw', rotate: -50, duration: 4, ease: 'back'}, 6.1)
+  .to('.fullSlide',  {x: '-10vw', duration: 1.5, ease: 'back'}, 4.8)
+  .to('.top',  {y: '-10vh', duration: 4, ease: 'back.in'}, 5)
+  ;
 
   
 /* Chapter dot triggers — created AFTER the factory so pin-spacers

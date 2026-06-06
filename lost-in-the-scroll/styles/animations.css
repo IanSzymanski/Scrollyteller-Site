@@ -91,3 +91,18 @@
               opacity: 0;
 
        }
+ /* ============================================================
+       SECTION 5
+       ============================================================ */
+
+       .fullBone {
+              transform: translate(75vw, -20vh) scale(0.8) rotate(10deg);
+              transform-origin: right;
+       }
+       .bottom {
+              transform: translateY(50vh) scaleX(10);
+       }
+       .top {
+              transform: rotate(180deg) translate(-57vw, -12vh) scaleX(5);
+              opacity: 0;
+       }
