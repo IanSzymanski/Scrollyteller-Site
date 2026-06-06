@@ -423,102 +423,101 @@ gsap.timeline({
   .to('#footer .footer-body',  { opacity: 1, duration: 0.5 }, '-=0.2')
   .to('#back-to-top',          { opacity: 1, duration: 0.4 }, '-=0.1');
 
-/* ============================================================
-   BACK TO TOP
-   1. Kill all ScrollTrigger instances
-   2. Reset every animated element to its initial state
-   3. Scroll to top
-   4. Re-init ScrollTrigger and re-run hero entrance
-   ============================================================ */
 document.getElementById('back-to-top').addEventListener('click', () => {
 
-  /* Kill all existing ScrollTriggers */
-  ScrollTrigger.getAll().forEach(st => st.kill());
+  const canvas = document.createElement('canvas');
+  canvas.style.cssText = `
+    position: fixed; inset: 0;
+    width: 100%; height: 100%;
+    pointer-events: none;
+    z-index: 9999;
+  `;
+  document.body.appendChild(canvas);
 
-  /* Collect every element that was animated and reset it */
-  const resetTargets = [
-    '#hero .hero-kicker', '#hero h1', '#hero .hero-subtitle', '#hero .scroll-cue',
-    '#footer .footer-label', '#footer h2', '#footer .footer-body', '#back-to-top',
-    '.content-box', '.kicker', '.section-headline', '.section-body',
-  ];
+  const ctx    = canvas.getContext('2d');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
 
-  gsap.set(resetTargets, { clearProps: 'all' });
+  /* ── Config ─────────────────────────────────────── */
+  const CONFETTI = {
+    count:   180,
+    colors:  [
+      '#c8a96e', '#f0ece0', '#5b8fd4',
+      '#6ec8a4', '#c87a5b', '#9b6ec8', '#c8c36e'
+    ],
+    gravity:     0.45,
+    drag:        0.985,
+    spread:      6.0,
+    duration:    4000,  /* ms before canvas is removed */
+  };
 
-  /* Re-apply the CSS initial states that GSAP was animating from */
-  gsap.set(['#hero h1', '#hero .hero-subtitle'], { opacity: 0, x: -50 });
-  gsap.set(['#hero .hero-kicker', '#hero .scroll-cue'], { opacity: 0 });
-  gsap.set(['.kicker'], { opacity: 0 });
-  gsap.set(['.section-headline', '.section-body'], { opacity: 0, y: 24 });
-  gsap.set(['.content-box'], { opacity: 0 });
-  gsap.set(['#footer .footer-label', '#footer h2',
-            '#footer .footer-body', '#back-to-top'], { opacity: 0 });
+  /* ── Spawn particles from button center ─────────── */
+  const btn    = document.getElementById('back-to-top');
+  const rect   = btn.getBoundingClientRect();
+  const originX = rect.left + rect.width  / 2;
+  const originY = rect.top  + rect.height / 2;
 
-  /* Scroll instantly to top */
-  window.scrollTo({ top: 0, behavior: 'instant' });
-
-  /* Wait one frame for scroll to settle, then rebuild everything */
-  requestAnimationFrame(() => {
-    ScrollTrigger.refresh();
-
-    /* Re-run section factory */
-    document.querySelectorAll('.pin-wrap').forEach(wrap => {
-      const id      = wrap.id;
-      const scene   = wrap.querySelector('.sticky-scene');
-      const svgEl   = wrap.querySelector('svg');
-      const box     = wrap.querySelector('.content-box');
-      const kicker  = wrap.querySelector('.kicker');
-      const heading = wrap.querySelector('.section-headline');
-      const body    = wrap.querySelector('.section-body');
-
-      const pinEnd = wrap.dataset.pinEnd || CONFIG.pinEnd;
-
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger:       scene,
-          start:         CONFIG.pinStart,
-          end:           pinEnd,
-          pin:           true,
-          scrub:         CONFIG.scrub,
-          anticipatePin: CONFIG.anticipate,
-        }
-      });
-
-      tl.to(svgEl,   { opacity: 1, duration: 0.20 }, 0.00)
-        .to(box,     { opacity: 1, y: 0, duration: 0.10 }, 0.05)
-        .to(kicker,  { opacity: 1, duration: 0.10 }, 0.08)
-        .to(heading, { opacity: 1, y: 0, duration: 0.16, ease: 'power3.out' }, 0.14)
-        .to(body,    { opacity: 1, y: 0, duration: 0.14, ease: 'power2.out' }, 0.28);
-
-      tl.to({}, { duration: 0.45 }, 0.55);
-      sectionTimelines[id] = tl;
-    });
-
-    /* Re-run footer entrance */
-    gsap.timeline({
-      scrollTrigger: { trigger: '#footer', start: 'top 70%', once: true }
-    })
-      .to('#footer .footer-label', { opacity: 1, duration: 0.5 })
-      .to('#footer h2',            { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2')
-      .to('#footer .footer-body',  { opacity: 1, duration: 0.5 }, '-=0.2')
-      .to('#back-to-top',          { opacity: 1, duration: 0.4 }, '-=0.1');
-
-    /* Re-run progress bar trigger */
-    ScrollTrigger.create({
-      start:    'top top',
-      end:      'max',
-      onUpdate: self => {
-        progressBar.style.width = (self.progress * 100).toFixed(2) + '%';
-      }
-    });
-
-    /* Re-run hero entrance */
-    gsap.set(['#hero h1', '#hero .hero-subtitle'], { opacity: 0, x: -50 });
-    gsap.timeline({ delay: 0.15 })
-      .to('#hero .hero-kicker',   { opacity: 1, duration: 0.7, ease: 'power2.out' })
-      .to('#hero h1',             { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' }, '-=0.3')
-      .to('#hero .hero-subtitle', { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
-      .to('#hero .scroll-cue',    { opacity: 1, duration: 0.5 }, '+=0.1');
+  const particles = Array.from({ length: CONFETTI.count }, () => {
+    const angle = (Math.random() * 360) * (Math.PI / 180);
+    const speed = 10 + Math.random() * CONFETTI.spread;
+    return {
+      x:    originX,
+      y:    originY,
+      vx:   Math.cos(angle) * speed,
+      vy:   Math.sin(angle) * speed - (3 + Math.random() * 4), /* bias upward */
+      rot:  Math.random() * 360,
+      rotV: (Math.random() - 0.5) * 8,
+      w:    6  + Math.random() * 8,
+      h:    3  + Math.random() * 5,
+      color: CONFETTI.colors[Math.floor(Math.random() * CONFETTI.colors.length)],
+      alpha: 1,
+      shape: Math.random() > 0.5 ? 'rect' : 'circle',
+    };
   });
+
+  /* ── Animation loop ─────────────────────────────── */
+  let startTime = null;
+
+  function draw(ts) {
+    if (!startTime) startTime = ts;
+    const elapsed = ts - startTime;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    particles.forEach(p => {
+      p.vy  += CONFETTI.gravity;
+      p.vx  *= CONFETTI.drag;
+      p.vy  *= CONFETTI.drag;
+      p.x   += p.vx;
+      p.y   += p.vy;
+      p.rot += p.rotV;
+      p.alpha = Math.max(0, 1 - elapsed / CONFETTI.duration);
+
+      ctx.save();
+      ctx.globalAlpha = p.alpha;
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.rot * Math.PI / 180);
+      ctx.fillStyle = p.color;
+
+      if (p.shape === 'circle') {
+        ctx.beginPath();
+        ctx.arc(0, 0, p.w / 2, 0, Math.PI * 2);
+        ctx.fill();
+      } else {
+        ctx.fillRect(-p.w / 2, -p.h / 2, p.w, p.h);
+      }
+
+      ctx.restore();
+    });
+
+    if (elapsed < CONFETTI.duration) {
+      requestAnimationFrame(draw);
+    } else {
+      canvas.remove();
+    }
+  }
+
+  requestAnimationFrame(draw);
 });
 
 /* ============================================================
