@@ -26,6 +26,23 @@
 <body>
  
   <!-- Fixed chrome -->
+   <div id="theme-switcher">
+  <button id="theme-trigger" aria-haspopup="true" aria-expanded="false">
+    <span class="theme-trigger-icon" id="theme-trigger-icon">◐</span>
+    <span id="theme-trigger-label">Theme</span>
+  </button>
+  <div id="theme-dropdown" role="menu">
+    <button class="theme-option" data-value="light" role="menuitem">
+      <span class="theme-option-icon">☀︎</span> Light
+    </button>
+    <button class="theme-option" data-value="dark" role="menuitem">
+      <span class="theme-option-icon">☾</span> Dark
+    </button>
+    <button class="theme-option" data-value="system" role="menuitem">
+      <span class="theme-option-icon">◐</span> System
+    </button>
+  </div>
+</div>
   <div id="progress-bar"></div>
   
   <nav id="chapter-nav" aria-label="Chapter navigation"></nav>
@@ -336,7 +353,10 @@
         Dedicated to Jared, for sticking it out.
       </p>
     </div>
- 
+       <button id="back-to-top" aria-label="Back to top">
+  <span class="back-to-top-icon">↑</span>
+  <span class="back-to-top-label">Back to top</span>
+</button>
     <p class="footer-credit">Ian Szymanski</p>
   </footer>
     </main>

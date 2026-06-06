@@ -1,3 +1,98 @@
+/* ============================================================
+   THEME SWITCHER
+   Precedence: localStorage → system prefers-color-scheme
+   ============================================================ */
+const THEME = {
+  storageKey: 'scrollyteller-theme',
+  modes: ['light', 'dark', 'system'],
+
+  icons: { light: '☀︎', dark: '☾', system: '◐' },
+  labels: { light: 'Light', dark: 'Dark', system: 'System' },
+
+  normalize(mode) {
+    return this.modes.includes(mode) ? mode : 'system';
+  },
+
+  /* Resolve 'system' to the actual OS preference */
+  resolve(mode) {
+    mode = this.normalize(mode);
+    if (mode === 'system') {
+      return window.matchMedia('(prefers-color-scheme: light)').matches
+        ? 'light' : 'dark';
+    }
+    return mode;
+  },
+
+  /* Apply theme to <html> and update button chrome */
+  apply(mode) {
+    const resolved = this.resolve(mode);
+    document.documentElement.setAttribute('data-theme', resolved);
+
+    document.getElementById('theme-trigger-icon').textContent  = this.icons[mode];
+    document.getElementById('theme-trigger-label').textContent = this.labels[mode];
+
+    document.querySelectorAll('.theme-option').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.value === mode);
+    });
+  },
+
+  /* Save choice and apply */
+  set(mode) {
+    mode = this.normalize(mode);
+    localStorage.setItem(this.storageKey, mode);
+    this.apply(mode);
+  },
+
+  /* Load from storage, fall back to 'system' */
+  init() {
+    const saved = this.normalize(localStorage.getItem(this.storageKey) || 'system');
+    this.apply(saved);
+
+    /* Watch for OS-level changes when mode is 'system' */
+    window.matchMedia('(prefers-color-scheme: light)')
+      .addEventListener('change', () => {
+        const current = localStorage.getItem(this.storageKey) || 'system';
+        if (current === 'system') this.apply('system');
+      });
+  },
+};
+
+/* Init immediately (before paint) to avoid flash */
+THEME.init();
+
+/* Wire up trigger button */
+const triggerBtn  = document.getElementById('theme-trigger');
+const dropdown    = document.getElementById('theme-dropdown');
+
+triggerBtn.addEventListener('click', (e) => {
+  e.stopPropagation();
+  const isOpen = dropdown.classList.toggle('open');
+  triggerBtn.setAttribute('aria-expanded', isOpen);
+});
+
+/* Wire up each option */
+document.querySelectorAll('.theme-option').forEach(btn => {
+  btn.addEventListener('click', () => {
+    THEME.set(btn.dataset.value);
+    dropdown.classList.remove('open');
+    triggerBtn.setAttribute('aria-expanded', 'false');
+  });
+});
+
+/* Close on outside click */
+document.addEventListener('click', () => {
+  dropdown.classList.remove('open');
+  triggerBtn.setAttribute('aria-expanded', 'false');
+});
+
+/* Close on Escape */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    dropdown.classList.remove('open');
+    triggerBtn.setAttribute('aria-expanded', 'false');
+  }
+});
+
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
@@ -242,7 +337,6 @@ document.querySelectorAll('.pin-wrap').forEach(wrap => {
     scrub:         CONFIG.scrub,
     anticipatePin: CONFIG.anticipate,
     animation:     tl,
-    markers:       true,
   });
 });
 
@@ -318,16 +412,114 @@ CHAPTERS.forEach((id, i) => {
   });
 });
 
-  /* ============================================================
+ /* ============================================================
    FOOTER ENTRANCE
-   Fires once when footer scrolls into view (not scrubbed).
    ============================================================ */
 gsap.timeline({
   scrollTrigger: { trigger: '#footer', start: 'top 70%', once: true }
 })
   .to('#footer .footer-label', { opacity: 1, duration: 0.5 })
   .to('#footer h2',            { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2')
-  .to('#footer .footer-body',  { opacity: 1, duration: 0.5 }, '-=0.2');
+  .to('#footer .footer-body',  { opacity: 1, duration: 0.5 }, '-=0.2')
+  .to('#back-to-top',          { opacity: 1, duration: 0.4 }, '-=0.1');
+
+/* ============================================================
+   BACK TO TOP
+   1. Kill all ScrollTrigger instances
+   2. Reset every animated element to its initial state
+   3. Scroll to top
+   4. Re-init ScrollTrigger and re-run hero entrance
+   ============================================================ */
+document.getElementById('back-to-top').addEventListener('click', () => {
+
+  /* Kill all existing ScrollTriggers */
+  ScrollTrigger.getAll().forEach(st => st.kill());
+
+  /* Collect every element that was animated and reset it */
+  const resetTargets = [
+    '#hero .hero-kicker', '#hero h1', '#hero .hero-subtitle', '#hero .scroll-cue',
+    '#footer .footer-label', '#footer h2', '#footer .footer-body', '#back-to-top',
+    '.content-box', '.kicker', '.section-headline', '.section-body',
+  ];
+
+  gsap.set(resetTargets, { clearProps: 'all' });
+
+  /* Re-apply the CSS initial states that GSAP was animating from */
+  gsap.set(['#hero h1', '#hero .hero-subtitle'], { opacity: 0, x: -50 });
+  gsap.set(['#hero .hero-kicker', '#hero .scroll-cue'], { opacity: 0 });
+  gsap.set(['.kicker'], { opacity: 0 });
+  gsap.set(['.section-headline', '.section-body'], { opacity: 0, y: 24 });
+  gsap.set(['.content-box'], { opacity: 0 });
+  gsap.set(['#footer .footer-label', '#footer h2',
+            '#footer .footer-body', '#back-to-top'], { opacity: 0 });
+
+  /* Scroll instantly to top */
+  window.scrollTo({ top: 0, behavior: 'instant' });
+
+  /* Wait one frame for scroll to settle, then rebuild everything */
+  requestAnimationFrame(() => {
+    ScrollTrigger.refresh();
+
+    /* Re-run section factory */
+    document.querySelectorAll('.pin-wrap').forEach(wrap => {
+      const id      = wrap.id;
+      const scene   = wrap.querySelector('.sticky-scene');
+      const svgEl   = wrap.querySelector('svg');
+      const box     = wrap.querySelector('.content-box');
+      const kicker  = wrap.querySelector('.kicker');
+      const heading = wrap.querySelector('.section-headline');
+      const body    = wrap.querySelector('.section-body');
+
+      const pinEnd = wrap.dataset.pinEnd || CONFIG.pinEnd;
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger:       scene,
+          start:         CONFIG.pinStart,
+          end:           pinEnd,
+          pin:           true,
+          scrub:         CONFIG.scrub,
+          anticipatePin: CONFIG.anticipate,
+        }
+      });
+
+      tl.to(svgEl,   { opacity: 1, duration: 0.20 }, 0.00)
+        .to(box,     { opacity: 1, y: 0, duration: 0.10 }, 0.05)
+        .to(kicker,  { opacity: 1, duration: 0.10 }, 0.08)
+        .to(heading, { opacity: 1, y: 0, duration: 0.16, ease: 'power3.out' }, 0.14)
+        .to(body,    { opacity: 1, y: 0, duration: 0.14, ease: 'power2.out' }, 0.28);
+
+      tl.to({}, { duration: 0.45 }, 0.55);
+      sectionTimelines[id] = tl;
+    });
+
+    /* Re-run footer entrance */
+    gsap.timeline({
+      scrollTrigger: { trigger: '#footer', start: 'top 70%', once: true }
+    })
+      .to('#footer .footer-label', { opacity: 1, duration: 0.5 })
+      .to('#footer h2',            { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2')
+      .to('#footer .footer-body',  { opacity: 1, duration: 0.5 }, '-=0.2')
+      .to('#back-to-top',          { opacity: 1, duration: 0.4 }, '-=0.1');
+
+    /* Re-run progress bar trigger */
+    ScrollTrigger.create({
+      start:    'top top',
+      end:      'max',
+      onUpdate: self => {
+        progressBar.style.width = (self.progress * 100).toFixed(2) + '%';
+      }
+    });
+
+    /* Re-run hero entrance */
+    gsap.set(['#hero h1', '#hero .hero-subtitle'], { opacity: 0, x: -50 });
+    gsap.timeline({ delay: 0.15 })
+      .to('#hero .hero-kicker',   { opacity: 1, duration: 0.7, ease: 'power2.out' })
+      .to('#hero h1',             { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' }, '-=0.3')
+      .to('#hero .hero-subtitle', { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
+      .to('#hero .scroll-cue',    { opacity: 1, duration: 0.5 }, '+=0.1');
+  });
+});
 
 /* ============================================================
    RESPONSIVE REFRESH

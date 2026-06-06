@@ -59,6 +59,80 @@
       background: var(--accent-red);
       transform: scale(1.5);
     }
+
+    #theme-switcher {
+  position: fixed;
+  top: 1.25rem;
+  right: 1.25rem;
+  z-index: 400;
+  font-family: var(--font-mono);
+}
+
+/* The trigger button — same irregular cut shape as content boxes */
+#theme-trigger {
+  background: var(--surface-dark);
+  color: var(--text-tertiary);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 0.6rem 1.1rem 0.7rem;
+  clip-path: polygon(4% 0%, 100% 3%, 96% 100%, 0% 95%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s;
+  min-width: 110px;
+  justify-content: center;
+}
+
+#theme-trigger:hover { opacity: 0.85; }
+
+.theme-trigger-icon { font-size: 12px; }
+
+/* Dropdown panel — cut shape, opens below trigger */
+#theme-dropdown {
+  position: absolute;
+  top: calc(100% + 6px);
+  right: 0;
+  background: var(--surface-dark);
+  clip-path: polygon(3% 0%, 100% 2%, 97% 100%, 0% 97%);
+  min-width: 140px;
+  overflow: hidden;
+  display: none;          /* JS toggles to block */
+  flex-direction: column;
+}
+
+#theme-dropdown.open {
+  display: flex;
+}
+
+.theme-option {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  padding: 0.75rem 1.25rem;
+  text-align: left;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  transition: color 0.15s, background 0.15s;
+  width: 100%;
+}
+
+.theme-option:hover {
+  color: var(--text-tertiary);
+  background: rgba(255,255,255,0.04);
+}
+
+.theme-option-icon { font-size: 13px; }
  
     /* ============================================================
        SHARED TEXT ELEMENTS
@@ -362,7 +436,28 @@
       color: var(--grey-0);
       z-index: 10;
     }
- 
+ #back-to-top {
+  z-index: 10;
+  background: var(--grey-0);
+  color: var(--clr-switcher-txt);
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 0.65rem 1.4rem 0.75rem;
+  clip-path: polygon(4% 0%, 100% 3%, 96% 100%, 0% 95%);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: opacity 0.2s;
+  opacity: 0; /* GSAP animates in alongside footer entrance */
+}
+
+#back-to-top:hover { opacity: 0.85; }
+
+.back-to-top-icon  { font-size: 14px; }
     /* ============================================================
        RESPONSIVE — collapse text overlay on narrow viewports
        ============================================================ */

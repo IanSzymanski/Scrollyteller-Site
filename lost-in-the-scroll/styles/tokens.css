@@ -49,6 +49,7 @@
        --surface-dark:  var(--green-100);
        --text-primary:  var(--grey-100);
        --text-secondary: var(--grey-0);
+    }
 
     /* ============================================================
        LIGHT THEME
@@ -59,6 +60,7 @@
          ============================================================ */
       --surface-dark: var(--green-100);
       --surface-light: var(--yellow-25);
+      --text-tertiary: var(--grey-0);
     }
 
     /* ============================================================
@@ -70,5 +72,5 @@
          ============================================================ */
       --surface-dark: var(--yellow-25);
       --surface-light: var(--green-100);
+      --text-tertiary: var(--grey-100);
     }
-   }
