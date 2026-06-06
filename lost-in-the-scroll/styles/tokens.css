@@ -1,8 +1,57 @@
  /* ============================================================
        DESIGN TOKENS — edit everything here first
        ============================================================ */
-    :root {
-      /* Palette */
+    :root,
+    [data-theme="system"] {
+      /* ============================================================
+         PRIMITIVES — Base color palette (shared across all themes)
+         ============================================================ */
+      --yellow-25: #fdf5eb;
+      --yellow-50: #eecb9b;
+      --yellow-75: #dea557;
+      --yellow-100: #c36742;
+      --green-25: #c5c6a9;
+      --green-50: #99b79b;
+      --green-75: #607571;
+      --green-100: #232b2a;
+      --grey-0: #ffffff;
+      --grey-100: #000000;
+      --grey-50: #999999;
+
+      /* ============================================================
+         PRIMARY COLORS (shared across all themes)
+         ============================================================ */
+      --primary-lime: var(--green-25);
+      --primary-green: var(--green-75);
+      --primary-yellow: var(--yellow-50);
+
+      /* ============================================================
+         ACCENT COLORS (shared across all themes)
+         ============================================================ */
+      --accent-red: var(--yellow-100);
+
+      /* ============================================================
+         TYPOGRAPHY
+         ============================================================ */
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body:    'DM Sans', system-ui, sans-serif;
+      --font-mono:    'DM Mono', 'Courier New', monospace;
+ 
+      /* ============================================================
+         LAYOUT
+         ============================================================ */
+      --content-box-width:  420px;   /* max-width of the floating text card  */
+      --content-box-margin: 4vw;     /* edge gap from viewport side           */
+      --radius:             10px;
+ 
+      /* ============================================================
+         ANIMATION
+         ============================================================ */
+                /* unitless number; used in JS as vh     */
+
+      /* ============================================================
+         LEGACY PALETTE — kept for backwards compatibility
+         ============================================================ */
       --clr-bg:              #0d0d12;
       --clr-surface:         rgba(13, 13, 18, 0.82); /* content-box bg */
       --clr-surface-solid:   #13131c;                /* opaque fallback  */
@@ -25,17 +74,38 @@
       --clr-s3: #c87a5b;
       --clr-s4: #9b6ec8;
       --clr-s5: #c8c36e;
- 
-      /* Typography */
-      --font-display: 'Playfair Display', Georgia, serif;
-      --font-body:    'DM Sans', system-ui, sans-serif;
-      --font-mono:    'DM Mono', 'Courier New', monospace;
- 
-      /* Layout */
-      --content-box-width:  420px;   /* max-width of the floating text card  */
-      --content-box-margin: 4vw;     /* edge gap from viewport side           */
-      --radius:             10px;
- 
-      /* Pin duration per section — override per-section below if needed */
-      --pin-vh: 500;                 /* unitless number; used in JS as vh     */
+    }
+
+    /* ============================================================
+       LIGHT THEME
+       ============================================================ */
+    [data-theme="light"] {
+      /* ============================================================
+         SURFACE COLORS
+         ============================================================ */
+      --surface-dark: var(--green-100);
+      --surface-light: var(--yellow-25);
+
+      /* ============================================================
+         TEXT COLORS
+         ============================================================ */
+      --text-primary: var(--grey-100);
+      --text-secondary: var(--grey-0);
+    }
+
+    /* ============================================================
+       DARK THEME (surface and text colors swapped)
+       ============================================================ */
+    [data-theme="dark"] {
+      /* ============================================================
+         SURFACE COLORS (swapped)
+         ============================================================ */
+      --surface-dark: var(--yellow-25);
+      --surface-light: var(--green-100);
+
+      /* ============================================================
+         TEXT COLORS (swapped)
+         ============================================================ */
+      --text-primary: var(--grey-0);
+      --text-secondary: var(--grey-100);
     }

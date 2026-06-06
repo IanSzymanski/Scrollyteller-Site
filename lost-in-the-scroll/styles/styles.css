@@ -89,19 +89,53 @@
     /* ============================================================
        CONTENT BOX — floating card layered over SVG
        ============================================================ */
+    
     .content-box {
-      background: var(--clr-surface);
       -webkit-backdrop-filter: blur(14px);
       backdrop-filter: blur(14px);
-      border: 1px solid var(--clr-border);
-      border-radius: var(--radius);
+      border: none;
+      border-radius: 0;
       padding: clamp(1.4rem, 3vw, 2.2rem);
       width: 100%;
       max-width: var(--content-box-width);
       /* GSAP will animate opacity in — start hidden */
       opacity: 0;
     }
- 
+    /* RIGHT box — slants inward on the left edge, slight top droop */
+.text-overlay--right .content-box {
+  clip-path: polygon(
+    4% 0%,
+    100% 3%,
+    97% 100%,
+    0% 96%
+  );
+  background: var(--yellow-75);
+  padding: clamp(2rem, 4vw, 3rem);
+}
+
+/* LEFT box — slants inward on the right edge, asymmetric corners */
+.text-overlay--left .content-box {
+  clip-path: polygon(
+    0% 2%,
+    96% 0%,
+    100% 94%,
+    3% 100%
+  );
+  background: var(--yellow-75);
+  padding: clamp(2rem, 4vw, 3rem);
+}
+
+/* CENTER box — more trapezoid-like, wider at top, pinched at bottom */
+.text-overlay--center .content-box {
+  clip-path: polygon(
+    2% 0%,
+    98% 2%,
+    95% 100%,
+    5% 98%
+  );
+  background: var(--yellow-75);
+  padding: clamp(2rem, 4vw, 3rem);
+}
     /* ============================================================
        SVG CANVAS — full viewport, fills every section
        ============================================================ */
@@ -220,24 +254,6 @@
     }
  
     /* Hero text sits above SVG */
-    #hero .hero-text {
-      position: relative;
-      z-index: 10;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem clamp(1.5rem, 6vw, 4rem);
-    }
- 
-    #hero .hero-kicker {
-      font-family: var(--font-mono);
-      font-size: clamp(9px, 1.2vw, 11px);
-      letter-spacing: 5px;
-      text-transform: uppercase;
-      color: var(--clr-accent);
-      margin-bottom: 1.5rem;
-      opacity: 0;
-    }
  
     #hero h1 {
       font-family: var(--font-display);
@@ -255,15 +271,19 @@
       font-style: italic;
       color: var(--clr-accent);
     }
- 
     #hero .hero-subtitle {
-      font-size: clamp(1rem, 2.2vw, 1.2rem);
-      line-height: 1.75;
-      color: var(--clr-text-body);
-      max-width: 540px;
       opacity: 0;
-      transform: translateY(20px);
     }
+    #hero .hero-text {
+      position: absolute;
+      top: clamp(2rem, 6vh, 4rem);
+      left: clamp(1.5rem, 5vw, 4rem);
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      text-align: left;
+}
  
     #hero .scroll-cue {
       position: absolute;
@@ -280,29 +300,12 @@
     }
  
     /* ============================================================
-       SECTION BACKGROUND COLOURS
-       Applied to each .sticky-scene via section wrapper colour
-       ============================================================ */
-    #section-1 .sticky-scene { background: var(--clr-s1-bg); }
-    #section-2 .sticky-scene { background: var(--clr-s2-bg); }
-    #section-3 .sticky-scene { background: var(--clr-s3-bg); }
-    #section-4 .sticky-scene { background: var(--clr-s4-bg); }
-    #section-5 .sticky-scene { background: var(--clr-s5-bg); }
- 
-    /* Subtle top border accent per section */
-    #section-1 .sticky-scene { border-top: 1px solid rgba(91,143,212,0.25); }
-    #section-2 .sticky-scene { border-top: 1px solid rgba(110,200,164,0.25); }
-    #section-3 .sticky-scene { border-top: 1px solid rgba(200,122,91,0.25); }
-    #section-4 .sticky-scene { border-top: 1px solid rgba(155,110,200,0.25); }
-    #section-5 .sticky-scene { border-top: 1px solid rgba(200,195,110,0.25); }
- 
-    /* ============================================================
        INTER-SECTION TRANSITION STRIP
        A short full-width band between pinned sections.
        Keeps them from abruptly colliding.
        ============================================================ */
     .section-gap {
-      height: 30vh;              /* adjust: less = tighter transitions */
+      height: 10vh;              /* adjust: less = tighter transitions */
       background: var(--clr-bg);
       display: flex;
       align-items: center;

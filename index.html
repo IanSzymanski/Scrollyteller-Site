@@ -45,21 +45,18 @@
         aria-hidden="true"
       >
         <!-- DEBUG: bounding box + label — remove before publishing -->
-        <rect class="svg-debug-rect" x="1" y="1" width="1438" height="898"/>
-        <text class="svg-placeholder-label" x="50%" y="50%" text-anchor="middle"
-          dominant-baseline="middle" fill="rgba(255,255,255,0.08)">SVG · Hero</text>
+        <path xmlns="http://www.w3.org/2000/svg" fill="#607571" d="M1451.73 0c81.98 128.479 7.06 336.864-165.46 407.771-147.4 60.581-319.23 1.575-423.712-94.378-75.675 40.427-172.588 62.833-264.177 62.833-28.283 0-55.767-2.766-82.059-7.977C444.521 453.854 295.373 504 158.174 504 101.123 504 47.327 492.783 0 472.939V0h1451.73Z" class="cloud-front"/>
+        <path xmlns="http://www.w3.org/2000/svg" fill="#C5C6A9" d="M1440 355v524.702c-110.59-20.574-214.38-72.025-291-137.314-100.8 49.973-229.898 77.669-351.902 77.669-37.676 0-74.287-3.419-109.311-9.861C592.142 916.013 393.464 978 210.703 978 134.707 978 63.045 964.135.001 939.606V364H0V0h1440v355Z" class="cloud-back"/>
         <!-- ↑ replace with your actual SVG artwork -->
       </svg>
     </div>
  
     <!-- Hero text -->
     <div class="hero-text">
-      <p class="hero-kicker">Your Publication · Season One</p>
-      <h1>A story told through <em>scroll</em></h1>
       <p class="hero-subtitle">
-        This is the subtitle. One or two compelling sentences that give
-        readers a reason to keep scrolling. Replace this with your real hook.
+         Learning JavaScript felt like standing in front of an instrument case I'd carried around for years and never opened.
       </p>
+      <h1>The Trombone <em>Journey</em></h1>
     </div>
  
     <p class="scroll-cue">↓ scroll to begin</p>
@@ -91,13 +88,10 @@
       <!-- Text overlay — RIGHT variant -->
       <div class="text-overlay text-overlay--right">
         <div class="content-box">
-          <p class="kicker">Chapter 01 — Opening</p>
-          <h2 class="section-headline">Section one headline goes here</h2>
+          <p class="kicker">Calling things by name</p>
+          <h2 class="section-headline">The Slide</h2>
           <p class="section-body">
-            Body copy for section one. The content-box is layered over the
-            full-viewport SVG canvas. This variant is right-aligned.
-            Swap <code>text-overlay--right</code> to <code>--left</code>
-            or <code>--center</code> for other layouts.
+            A trombone slide is like a blank canvas, one where the pitch is defined by the position. A small change can mean a big difference. Variables felt like that. let and const were my first tools for saying "this thing exists, and it's called this." I was naming what I wanted to be true instead of just describing whats on the page. That distinction between standard and defined changed everything about how I thought about writing code.
           </p>
         </div>
       </div>
@@ -129,15 +123,12 @@
       </div>
  
       <!-- Text overlay — LEFT variant -->
-      <div class="text-overlay text-overlay--left">
+      <div class="text-overlay text-overlay--center">
         <div class="content-box">
-          <p class="kicker">Chapter 02 — Development</p>
-          <h2 class="section-headline">Section two headline goes here</h2>
+          <p class="kicker">Reading the instructions</p>
+          <h2 class="section-headline">Sheet Music</h2>
           <p class="section-body">
-            Body copy for section two. This variant is left-aligned —
-            useful when the interesting part of the SVG is on the right.
-            The backdrop-blur glass effect keeps the text legible over
-            any artwork.
+            Sheet music is a set of conditions. If the note sits on the third line of the staff, you play B. That's it — no ambiguity, no interpretation, just a rule that fires when the situation matches. Conditionals worked the same way. If this, do that. And with classList, suddenly a website could look at itself and decide to change. Not on page load, not because I hard-coded a state. Because a condition was true. That was the moment websites stopped feeling like documents to me and started feeling like something alive.
           </p>
         </div>
       </div>
@@ -169,14 +160,12 @@
       </div>
  
       <!-- Text overlay — CENTER variant -->
-      <div class="text-overlay text-overlay--center">
+      <div class="text-overlay text-overlay--left">
         <div class="content-box">
-          <p class="kicker">Chapter 03 — Tension</p>
-          <h2 class="section-headline">Section three headline goes here</h2>
+          <p class="kicker">Waiting to be played</p>
+          <h2 class="section-headline">The Mouthpiece</h2>
           <p class="section-body">
-            Body copy for section three. The centered variant works well for
-            dramatic reveals where the SVG action fills the entire canvas
-            behind the text.
+            The mouthpiece is where the player meets the instrument. It listens for what you give it, whether it's a soft breath or a sharp attack, and converts that input into something the rest of the horn can work with. addEventListener was my mouthpiece. I could write a function and wait for a click, a keypress, or a scroll. The user could arrive and change what the page did. A website with a function, not just a form. Something that responded instead of just being there.
           </p>
         </div>
       </div>
@@ -192,7 +181,7 @@
        Custom pin distance example: add style="--pin-vh:600" to
        the .pin-wrap div to give this section more scroll room.
        ============================================================ -->
-  <div id="section-4" class="pin-wrap">
+  <div id="section-4" class="pin-wrap" style="--pin-vh:1000">
     <div class="sticky-scene">
  
       <div class="svg-canvas">
@@ -212,12 +201,10 @@
       <!-- Text overlay — RIGHT variant -->
       <div class="text-overlay text-overlay--right">
         <div class="content-box">
-          <p class="kicker">Chapter 04 — Climax</p>
-          <h2 class="section-headline">Section four headline goes here</h2>
+          <p class="kicker">One source of truth</p>
+          <h2 class="section-headline">The Tuning Slide</h2>
           <p class="section-body">
-            Body copy for section four. To give this section more scroll
-            distance independently, add <code>style="--pin-vh:600"</code>
-            to its <code>.pin-wrap</code> element.
+            If every part of a trombone had its own idea of what "in tune" meant, you'd have noise. The tuning slide is the single adjustment that governs the whole instrument's pitch. CSS custom properties hit me the same way. Set a color, a spacing value, a type size — set it once, in one place — and everything that references it moves together. I'd built sites before where changing a button color meant hunting through four files. Design tokens fixed that by setting something up correctly from the start.
           </p>
         </div>
       </div>
@@ -229,7 +216,7 @@
  
  
   <!-- ============================================================
-       SECTION 5 — text LEFT
+       SECTION 5
        ============================================================ -->
   <div id="section-5" class="pin-wrap">
     <div class="sticky-scene">
@@ -251,12 +238,10 @@
       <!-- Text overlay — LEFT variant -->
       <div class="text-overlay text-overlay--left">
         <div class="content-box">
-          <p class="kicker">Chapter 05 — Resolution</p>
-          <h2 class="section-headline">Section five headline goes here</h2>
+          <p class="kicker">The whole instrument</p>
+          <h2 class="section-headline">The Trombone</h2>
           <p class="section-body">
-            Body copy for section five — the closing beat. Use this to land
-            the story's key takeaway before the reader reaches the footer.
-            Keep it punchy.
+            No single part of a trombone makes music on its own. The slide without the bell is a metal tube. The mouthpiece without the slide is a useless cup. It's only when everything works together that you get music. I'm not going to say I've mastered JavaScript. Animation still gives me trouble, and there are concepts I circle back to and have to relearn. But I understand design systems now in a way I didn't before. I started treating code like an instrument I was assembling piece by piece. The case is open and music is being played.
           </p>
         </div>
       </div>
@@ -264,7 +249,7 @@
     </div>
   </div><!-- /section-5 -->
  
- 
+  
   <!-- ============================================================
        FOOTER
        Same pattern as hero: SVG fills viewport, text above it.
@@ -286,15 +271,14 @@
     </div>
  
     <div class="footer-text">
-      <p class="footer-label">End of story</p>
-      <h2>Your closing thought or call to action</h2>
+      <p class="footer-label">You made it</p>
+      <h2>Thanks for reading</h2>
       <p class="footer-body">
-        A brief note, a link, a byline — whatever the story demands.
-        Replace this placeholder text with your real outro.
+        This is dedicated to Jared, for sticking it out.
       </p>
     </div>
  
-    <p class="footer-credit">Built with GSAP ScrollTrigger</p>
+    <p class="footer-credit">Ian Szymanski</p>
   </footer>
     </main>
     <script type="module" src="lost-in-the-scroll/scripts/main.js"></script>

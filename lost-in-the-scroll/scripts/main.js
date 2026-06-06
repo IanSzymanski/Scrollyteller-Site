@@ -6,7 +6,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
      Central object — edit values here rather than hunting through code.
      ============================================================ */
   const CONFIG = {
-    pinVh:       500,    /* default scroll distance per section (vh units)  */
+    pinVh:       100,    /* default scroll distance per section (vh units)  */
     scrub:       1,      /* scrub lag in seconds; 0 = instant               */
     gapVh:       30,     /* section-gap height in vh (must match CSS)       */
     anticipate:  1,      /* anticipatePin value for ScrollTrigger           */
@@ -79,11 +79,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
      HERO ENTRANCE
      Load animation — not scroll-driven.
      ============================================================ */
-  gsap.timeline({ delay: 0.15 })
-    .to('#hero .hero-kicker',   { opacity: 1, duration: 0.7, ease: 'power2.out' })
-    .to('#hero h1',             { opacity: 1, y: 0, duration: 0.9, ease: 'power3.out' }, '-=0.3')
-    .to('#hero .hero-subtitle', { opacity: 1, y: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
-    .to('#hero .scroll-cue',    { opacity: 1, duration: 0.5 }, '+=0.1');
+  gsap.set(['#hero h1', '#hero .hero-subtitle'], { x: -50  });
+
+  gsap.timeline({ delay: 0.5 })
+  .to('#hero h1',             { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
+  .to('#hero .hero-subtitle', { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
+  .to('#hero .scroll-cue',    { opacity: 1, duration: 0.5 }, '+=0.1');
  
   /* ============================================================
      SECTION FACTORY
