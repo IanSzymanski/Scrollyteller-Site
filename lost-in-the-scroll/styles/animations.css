@@ -28,3 +28,9 @@
                .bar-Front {
                 opacity: 0;
                }
+
+       .slide {
+              transform: translate(35vw, 40vh);
+              scale: 0.8;
+              opacity: 0;
+       }

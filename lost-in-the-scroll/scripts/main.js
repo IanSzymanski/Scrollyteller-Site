@@ -5,123 +5,100 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
      CONFIG
      ============================================================ */
   const CONFIG = {
-  pinStart: 'top top',       /* when the scene locks to the viewport   */
-  pinEnd:   '+=1000vh',       /* how far to scroll before it unpins     */
-  scrub:    1,
-  gapVh:    0,
-  anticipate: 1,
+  pinStart:       'top top',
+  scrub:          2,
+  gapVh:          0,
+  anticipate:     1,
+  scrollPxPerSec: 500, // scroll pixels per second of animation — adjust to taste
 };
  
   /* ============================================================
      SETUP
      ============================================================ */
   gsap.registerPlugin(ScrollTrigger);
- 
-  /* Apply --pin-vh CSS var to each .pin-wrap so height is correct.
-     Reads per-element override first, falls back to CONFIG.pinVh.   */
-  document.querySelectorAll('.pin-wrap').forEach(wrap => {
-    const override = wrap.style.getPropertyValue('--pin-vh');
-    const vh = override ? parseInt(override) : CONFIG.pinVh;
-    wrap.style.setProperty('--pin-vh', vh);
-    wrap.style.height = `${vh}vh`;
-  });
 
-  /* Set gap heights from CONFIG so they stay in sync with ScrollTrigger */
 document.querySelectorAll('.section-gap').forEach(gap => {
   gap.style.height = `${CONFIG.gapVh}vh`;
 });
 
-/* Re-apply after ScrollTrigger finishes its first layout pass */
+
 ScrollTrigger.addEventListener('refresh', () => {
   document.querySelectorAll('.section-gap').forEach(gap => {
     gap.style.height = `${CONFIG.gapVh}vh`;
   });
 });
  
-  /* ── Progress bar ─────────────────────────────────────────────── */
-  const progressBar = document.getElementById('progress-bar');
-  ScrollTrigger.create({
-    start:    'top top',
-    end:      'max',
-    onUpdate: self => {
-      progressBar.style.width = (self.progress * 100).toFixed(2) + '%';
-    }
-  });
- 
-  /* ============================================================
-     CHAPTER NAV
-     Auto-generates dots for hero + sections + footer.
-     ============================================================ */
-  const CHAPTERS = [
-    'hero',
-    'section-1', 'section-2', 'section-3', 'section-4', 'section-5',
-    'footer'
-  ];
-  const navEl = document.getElementById('chapter-nav');
-    /* Ensure the chapter nav is the last child of <body> so it reliably
-      stacks above pinned SVG sections in all browsers. */
-    if (navEl && navEl.parentNode !== document.body) document.body.appendChild(navEl);
- 
-  CHAPTERS.forEach((id, i) => {
-    const dot = document.createElement('div');
-    dot.className = 'ch-dot' + (i === 0 ? ' active' : '');
-    dot.setAttribute('aria-label', `Go to ${id.replace(/-/g, ' ')}`);
-    dot.setAttribute('role', 'button');
-    dot.setAttribute('tabindex', '0');
-    const go = () => document.getElementById(id)
-      .scrollIntoView({ behavior: 'smooth' });
-    dot.addEventListener('click', go);
-    dot.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') go(); });
-    navEl.appendChild(dot);
-  });
- 
-  const dots = navEl.querySelectorAll('.ch-dot');
-  function setActiveChapter(n) {
-    dots.forEach((d, i) => d.classList.toggle('active', i === n));
+/* ── Progress bar ─────────────────────────────────────────────── */
+const progressBar = document.getElementById('progress-bar');
+ScrollTrigger.create({
+  start:    'top top',
+  end:      'max',
+  onUpdate: self => {
+    progressBar.style.width = (self.progress * 100).toFixed(2) + '%';
   }
- 
-  CHAPTERS.forEach((id, i) => {
-    ScrollTrigger.create({
-      trigger:     '#' + id,
-      start:       'top 55%',
-      end:         'bottom 45%',
-      onEnter:     () => setActiveChapter(i),
-      onEnterBack: () => setActiveChapter(i),
-    });
-  });
- 
-  /* ============================================================
-     HERO ENTRANCE
-     Load animation — not scroll-driven.
-     ============================================================ */
-  gsap.set(['#hero h1', '#hero .hero-subtitle'], { x: -50  });
+});
 
-  gsap.timeline({ delay: 0.5 })
-  .to('.cloud-Back', { opacity: 1, y: 0, duration: 1, ease: 'back' }, '-=0.4')
-  .to('.cloud-Front', { opacity: 1, y: 0, duration: 1, ease: 'back' }, '-=0.9')
+/* ============================================================
+   CHAPTER NAV
+   Auto-generates dots for hero + sections + footer.
+   ============================================================ */
+const CHAPTERS = [
+  'hero',
+  'section-1', 'section-2', 'section-3', 'section-4', 'section-5',
+  'footer'
+];
+const navEl = document.getElementById('chapter-nav');
+if (navEl && navEl.parentNode !== document.body) document.body.appendChild(navEl);
+
+CHAPTERS.forEach((id, i) => {
+  const dot = document.createElement('div');
+  dot.className = 'ch-dot' + (i === 0 ? ' active' : '');
+  dot.setAttribute('aria-label', `Go to ${id.replace(/-/g, ' ')}`);
+  dot.setAttribute('role', 'button');
+  dot.setAttribute('tabindex', '0');
+  const go = () => document.getElementById(id)
+    .scrollIntoView({ behavior: 'smooth' });
+  dot.addEventListener('click', go);
+  dot.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') go(); });
+  navEl.appendChild(dot);
+});
+
+const dots = navEl.querySelectorAll('.ch-dot');
+function setActiveChapter(n) {
+  dots.forEach((d, i) => d.classList.toggle('active', i === n));
+}
+
+  
+  /* ============================================================
+   HERO ENTRANCE
+   Load animation — not scroll-driven.
+   ============================================================ */
+
+gsap.set(['#hero h1', '#hero .hero-subtitle'], { x: -50 });
+
+gsap.timeline({ delay: 0.5 })
+  .to('.cloud-Back',  { opacity: 1, y: 0, duration: 1,   ease: 'back' },        '-=0.4')
+  .to('.cloud-Front', { opacity: 1, y: 0, duration: 1,   ease: 'back' },        '-=0.9')
   .to('#hero h1',             { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
   .to('#hero .hero-subtitle', { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
   .to('.trombone-Case', { opacity: 1, y: 0, duration: 2, transformOrigin: 'left center', rotate: -5, ease: 'back' }, '-=0.4')
   .to('#hero .scroll-cue',    { opacity: 1, duration: 1, scale: 1, ease: 'bounce' }, '+=0.1');
  
   /* ============================================================
-     SECTION FACTORY
-     Builds one ScrollTrigger timeline per .pin-wrap.
- 
-     Timeline structure (scrubbed 0 → 1 across the pin distance):
-       0.00 – 0.20  SVG canvas fades in
-       0.05 – 0.15  content-box fades in
-       0.08 – 0.30  kicker fades in
-       0.14 – 0.45  headline rises in
-       0.28 – 0.55  body copy rises in
-       0.55 – 1.00  reserved for SVG animations (see block below)
- 
-     All stored in sectionTimelines[id] so you can push SVG
-     tweens into them from the block below.
-     ============================================================ */
-  const sectionTimelines = {};
- 
-  document.querySelectorAll('.pin-wrap').forEach(wrap => {
+   SECTION FACTORY
+   Builds one ScrollTrigger + timeline per .pin-wrap.
+
+   Scroll distance is derived from the timeline's total duration:
+     end = totalDuration * CONFIG.scrollPxPerSec
+   Add, remove, or lengthen tweens and the pinned scroll
+   distance updates automatically on the next refresh.
+
+   Section-1 gets a parallax bar entrance before the text.
+   All other sections fade their SVG in, then reveal text.
+   ============================================================ */
+const sectionTimelines = {};
+
+document.querySelectorAll('.pin-wrap').forEach(wrap => {
   const id      = wrap.id;
   const scene   = wrap.querySelector('.sticky-scene');
   const svgEl   = wrap.querySelector('svg');
@@ -130,102 +107,99 @@ ScrollTrigger.addEventListener('refresh', () => {
   const heading = wrap.querySelector('.section-headline');
   const body    = wrap.querySelector('.section-body');
 
-  /* Per-section end override — add data-pin-end="+=600vh" to the
-     .pin-wrap element to give a single section more room          */
-  const pinEnd   = wrap.dataset.pinEnd || CONFIG.pinEnd;
+  const tl = gsap.timeline();
 
-  /* Derive wrap height from the end string so the document flow
-     matches what ScrollTrigger expects                            */
-  const pinVh    = parseFloat(pinEnd.replace('+=', '')) || 400;
-  wrap.style.height = `${pinVh}`;   /* pinEnd already includes vh units */
+  if (id === 'section-1') {
+    /* SVG is immediately visible — bars slide in as the transition.
+       Each bar starts further below the viewport, so it travels
+       more distance in the same time → stronger parallax on bar-Back. */
+    gsap.set(svgEl, { opacity: 1 });
 
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger:       scene,
-      start:         CONFIG.pinStart,
-      end:           pinEnd,
-      pin:           true,
-      scrub:         CONFIG.scrub,
-      anticipatePin: CONFIG.anticipate,
-      markers: true,
-    }
-  });
+  tl
+      // ── Parallax bar entrance ─────────────────────────────
+      .fromTo('.bar-Back',
+        { y: '40vh', opacity: 1 },
+        { y: '-65vh', duration: 3, ease: 'power2.out' }, 0)
+      .fromTo('.bar-Mid',
+        { y: '80vh', opacity: 1 },
+        { y: '-65vh', duration: 3, ease: 'power2.out' }, 0)
+      .fromTo('.bar-Front',
+        { y: '120vh', opacity: 1 },
+        { y: '-65vh', duration: 3, ease: 'power2.out' }, 0)
 
-  tl.to(svgEl,   { opacity: 1, duration: 0.20 }, 0.00)
-    .to(box,     { opacity: 1, y: 0, duration: 0.10 }, 0.05)
-    .to(kicker,  { opacity: 1, duration: 0.10 }, 0.08)
-    .to(heading, { opacity: 1, y: 0, duration: 0.16, ease: 'power3.out' }, 0.14)
-    .to(body,    { opacity: 1, y: 0, duration: 0.14, ease: 'power2.out' }, 0.28);
+      .to(box,     { opacity: 1, y: 0, duration: 0.8 },                    2.0)
+      .to(kicker,  { opacity: 1,        duration: 0.6 },                    2.2)
+      .to(heading, { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, 2.6)
+      .to(body,    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 3.2)
+      .to('.slide',{ opacity: 1, x: '29vw',duration: 2, ease: 'elastic' }, 2)
+      .to('.outer-Slide',{x: '-4vw',duration: 1, ease: 'back' }, 4)
+      .to('.outer-Slide',{x: '-8vw',duration: 1, ease: 'back' }, 5)
+      .to('.outer-Slide',{x: '-25vw',duration: 2, ease: 'back' }, 6)
+      .to('.outer-Slide',{opacity: 0, rotate: -90, transformOrigin: 'center', y: '30vw', duration: 2, ease: 'ease' }, 6.5)
+      .to('.slide',{opacity: 0, x: '35vw', duration: 1, ease: 'ease' }, 7.5);
 
-  tl.to({}, { duration: 0.45 }, 0.55);
+      } else {
+    tl
+      .to(svgEl,   { opacity: 1,        duration: 1.0 },                    0.0)
+      .to(box,     { opacity: 1, y: 0, duration: 0.8 },                    0.8)
+      .to(kicker,  { opacity: 1,        duration: 0.6 },                    1.0)
+      .to(heading, { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, 1.4)
+      .to(body,    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 2.0)
+      .to({}, { duration: 1.0 });
+  }
 
   sectionTimelines[id] = tl;
-});
- 
-  /* ============================================================
-     SECTION SVG ANIMATIONS
-     Add SVG tweens for each section here.
-     The total timeline length is 1.0 (scrub maps scroll to 0→1).
-     Text entrance occupies 0.0–0.55; use 0.55–1.0 for SVG beats.
- 
-     Position parameter cheatsheet:
-       0.6          — absolute position at 60% of timeline
-       '<'          — same start as previous tween
-       '<0.1'       — 0.1 after previous tween's start
-       '+=0.1'      — 0.1 after previous tween's end
- 
-     Example (section 1 — uncomment and adapt):
-       sectionTimelines['section-1']
-         .from('#svg-s1 #my-path',   { drawSVG: '0%',  duration: 0.2 }, 0.55)
-         .from('#svg-s1 #my-circle', { scale: 0, transformOrigin: '50% 50%', duration: 0.15 }, '<0.05')
-         .to(  '#svg-s1 #my-label',  { opacity: 1,     duration: 0.10 }, '<0.1');
-     ============================================================ */
- 
-  /* Section 1 */
- sectionTimelines['section-1']
- 
-  /* Section 2 */
-  // sectionTimelines['section-2']
-  //   .from('#svg-s2 .my-shape', { opacity: 0, duration: 0.2 }, 0.55);
- 
-  /* Section 3 */
-  // sectionTimelines['section-3']
-  //   .from('#svg-s3 .my-shape', { opacity: 0, duration: 0.2 }, 0.55);
- 
-  /* Section 4 */
-  // sectionTimelines['section-4']
-  //   .from('#svg-s4 .my-shape', { opacity: 0, duration: 0.2 }, 0.55);
- 
-  /* Section 5 */
-  // sectionTimelines['section-5']
-  //   .from('#svg-s5 .my-shape', { opacity: 0, duration: 0.2 }, 0.55);
- 
-  /* ============================================================
-     FOOTER ENTRANCE
-     Fires once when footer scrolls into view (not scrubbed).
-     ============================================================ */
-  gsap.timeline({
-    scrollTrigger: { trigger: '#footer', start: 'top 70%', once: true }
-  })
-    .to('#footer .footer-label', { opacity: 1, duration: 0.5 })
-    .to('#footer h2',            { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2')
-    .to('#footer .footer-body',  { opacity: 1, duration: 0.5 }, '-=0.2');
- 
-  /* ============================================================
-     RESPONSIVE REFRESH
-     ============================================================ */
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 250);
-  });
- 
-  /* ============================================================
-     REDUCED MOTION
-     ============================================================ */
-  gsap.matchMedia().add('(prefers-reduced-motion: reduce)', () => {
-    ScrollTrigger.getAll().forEach(st => { if (st.vars.scrub) st.vars.scrub = 0; });
-    gsap.globalTimeline.timeScale(100);
-  });
 
+  ScrollTrigger.create({
+    trigger:       scene,
+    start:         CONFIG.pinStart,
+    end:           () => '+=' + Math.round(tl.totalDuration() * CONFIG.scrollPxPerSec),
+    pin:           true,
+    scrub:         CONFIG.scrub,
+    anticipatePin: CONFIG.anticipate,
+    animation:     tl,
+    markers:       true,
+  });
+});
+
+/* Chapter dot triggers — created AFTER the factory so pin-spacers
+   already exist and section heights are correct when positions are
+   calculated. */
+CHAPTERS.forEach((id, i) => {
+  ScrollTrigger.create({
+    trigger:     '#' + id,
+    start:       'top 55%',
+    end:         'bottom 45%',
+    onEnter:     () => setActiveChapter(i),
+    onEnterBack: () => setActiveChapter(i),
+  });
+});
+
+  /* ============================================================
+   FOOTER ENTRANCE
+   Fires once when footer scrolls into view (not scrubbed).
+   ============================================================ */
+gsap.timeline({
+  scrollTrigger: { trigger: '#footer', start: 'top 70%', once: true }
+})
+  .to('#footer .footer-label', { opacity: 1, duration: 0.5 })
+  .to('#footer h2',            { opacity: 1, y: 0, duration: 0.7, ease: 'power3.out' }, '-=0.2')
+  .to('#footer .footer-body',  { opacity: 1, duration: 0.5 }, '-=0.2');
+
+/* ============================================================
+   RESPONSIVE REFRESH
+   ============================================================ */
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(() => ScrollTrigger.refresh(), 250);
+});
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+gsap.matchMedia().add('(prefers-reduced-motion: reduce)', () => {
+  ScrollTrigger.getAll().forEach(st => { if (st.vars.scrub) st.vars.scrub = 0; });
+  gsap.globalTimeline.timeScale(100);
+});
   

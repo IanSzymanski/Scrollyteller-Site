@@ -114,8 +114,7 @@
     97% 100%,
     0% 96%
   );
-  background: var(--primary-yellow);
-  padding: clamp(2rem, 4vw, 3rem);
+  background: var(--primary-yellow);  padding: clamp(2rem, 4vw, 3rem);
 }
 
 /* LEFT box — slants inward on the right edge, asymmetric corners */
@@ -295,27 +294,6 @@
       opacity: 0;
       z-index: 10;
       transform: scaleY(10);
-    }
- 
-    /* ============================================================
-       INTER-SECTION TRANSITION STRIP
-       A short full-width band between pinned sections.
-       Keeps them from abruptly colliding.
-       ============================================================ */
-    .section-gap {
-      height: 10vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
- 
-    .section-gap-label {
-      font-family: var(--font-mono);
-      font-size: 9px;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--clr-text-muted);
-      opacity: 0.4;
     }
  
     /* ============================================================
