@@ -8,11 +8,11 @@
        }
        .cloud-Back {
         opacity: 0;
-        transform: translateY(-100px);
+        transform: translateY(-200px);
        }
        .cloud-Front {
         opacity: 0;
-        transform: translateY(-100px);
+        transform: translateY(-400px);
        }
 
 /* ============================================================

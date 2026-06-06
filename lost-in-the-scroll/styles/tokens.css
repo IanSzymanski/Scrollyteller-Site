@@ -43,44 +43,12 @@
       --content-box-width:  420px;   /* max-width of the floating text card  */
       --content-box-margin: 4vw;     /* edge gap from viewport side           */
       --radius:             10px;
- 
-      /* ============================================================
-         ANIMATION
-         ============================================================ */
-                /* unitless number; used in JS as vh     */
-
-      /* ============================================================
-         LEGACY PALETTE — kept for backwards compatibility
-         ============================================================ */
-      --clr-bg:              #0d0d12;
-      --clr-surface:         rgba(13, 13, 18, 0.82); /* content-box bg */
-      --clr-surface-solid:   #13131c;                /* opaque fallback  */
-      --clr-border:          rgba(255, 255, 255, 0.10);
-      --clr-accent:          #c8a96e;
-      --clr-text-primary:    #f0ece0;
-      --clr-text-body:       #a09880;
-      --clr-text-muted:      #4a4840;
 
          /* Defaults for theme-aware tokens (fallbacks if no data-theme set) */
-         --surface-light: var(--yellow-25);
-         --surface-dark:  var(--green-100);
-         --text-primary:  var(--grey-100);
-         --text-secondary: var(--grey-0);
- 
-      /* Per-section SVG background tints */
-      --clr-s1-bg: #0a0f1a;
-      --clr-s2-bg: #080f0d;
-      --clr-s3-bg: #120a08;
-      --clr-s4-bg: #0d0812;
-      --clr-s5-bg: #111108;
- 
-      /* Per-section accent colours */
-      --clr-s1: #5b8fd4;
-      --clr-s2: #6ec8a4;
-      --clr-s3: #c87a5b;
-      --clr-s4: #9b6ec8;
-      --clr-s5: #c8c36e;
-    }
+       --surface-light: var(--yellow-25);
+       --surface-dark:  var(--green-100);
+       --text-primary:  var(--grey-100);
+       --text-secondary: var(--grey-0);
 
     /* ============================================================
        LIGHT THEME
@@ -103,3 +71,4 @@
       --surface-dark: var(--yellow-25);
       --surface-light: var(--green-100);
     }
+   }

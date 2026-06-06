@@ -56,17 +56,99 @@ CHAPTERS.forEach((id, i) => {
   dot.setAttribute('aria-label', `Go to ${id.replace(/-/g, ' ')}`);
   dot.setAttribute('role', 'button');
   dot.setAttribute('tabindex', '0');
+  dot.setAttribute('aria-current', i === 0 ? 'true' : 'false');
+
   const go = () => document.getElementById(id)
     .scrollIntoView({ behavior: 'smooth' });
+
   dot.addEventListener('click', go);
-  dot.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') go(); });
+  dot.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      go();
+      return;
+    }
+
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      const next = (i + 1) % CHAPTERS.length;
+      navEl.querySelectorAll('.ch-dot')[next]?.focus();
+    }
+
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+      e.preventDefault();
+      const prev = (i - 1 + CHAPTERS.length) % CHAPTERS.length;
+      navEl.querySelectorAll('.ch-dot')[prev]?.focus();
+    }
+
+    if (e.key === 'Home') {
+      e.preventDefault();
+      navEl.querySelectorAll('.ch-dot')[0]?.focus();
+    }
+
+    if (e.key === 'End') {
+      e.preventDefault();
+      navEl.querySelectorAll('.ch-dot')[CHAPTERS.length - 1]?.focus();
+    }
+  });
+
   navEl.appendChild(dot);
 });
 
 const dots = navEl.querySelectorAll('.ch-dot');
 function setActiveChapter(n) {
-  dots.forEach((d, i) => d.classList.toggle('active', i === n));
+  dots.forEach((d, i) => {
+    d.classList.toggle('active', i === n);
+    d.setAttribute('aria-current', i === n ? 'true' : 'false');
+  });
 }
+
+function getCurrentChapterIndex() {
+  const midpoint = window.scrollY + window.innerHeight / 2;
+  let current = 0;
+
+  CHAPTERS.forEach((id, i) => {
+    const section = document.getElementById(id);
+    if (!section) return;
+    const top = section.offsetTop;
+    if (top <= midpoint) current = i;
+  });
+
+  return current;
+}
+
+function scrollToChapter(index) {
+  const id = CHAPTERS[index];
+  const section = document.getElementById(id);
+  if (section) {
+    section.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+document.addEventListener('keydown', e => {
+  const active = document.activeElement;
+  if (!active || ['INPUT', 'TEXTAREA', 'SELECT'].includes(active.tagName) || active.isContentEditable) return;
+
+  if (e.key === 'PageDown') {
+    e.preventDefault();
+    scrollToChapter(Math.min(CHAPTERS.length - 1, getCurrentChapterIndex() + 1));
+  }
+
+  if (e.key === 'PageUp') {
+    e.preventDefault();
+    scrollToChapter(Math.max(0, getCurrentChapterIndex() - 1));
+  }
+
+  if (e.key === 'Home') {
+    e.preventDefault();
+    scrollToChapter(0);
+  }
+
+  if (e.key === 'End') {
+    e.preventDefault();
+    scrollToChapter(CHAPTERS.length - 1);
+  }
+});
 
   
   /* ============================================================
@@ -81,8 +163,8 @@ gsap.timeline({ delay: 0.5 })
   .to('.cloud-Front', { opacity: 1, y: 0, duration: 1,   ease: 'back' },        '-=0.9')
   .to('#hero h1',             { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
   .to('#hero .hero-subtitle', { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
-  .to('.trombone-Case', { opacity: 1, y: 0, duration: 2, transformOrigin: 'left center', rotate: -5, ease: 'back' }, '-=0.4')
-  .to('#hero .scroll-cue',    { opacity: 1, duration: 1, scale: 1, ease: 'bounce' }, '+=0.1');
+  .to('.trombone-Case', { opacity: 1, y: 0, duration: 2, transformOrigin: 'left center', rotate: -5, ease: 'back' }, '-=0.9')
+  .to('#hero .scroll-cue',    { opacity: 1, duration: 1, scale: 1, ease: 'bounce' }, '-=0.9');
  
   /* ============================================================
    SECTION FACTORY
@@ -136,7 +218,7 @@ document.querySelectorAll('.pin-wrap').forEach(wrap => {
       .to('.outer-Slide',{x: '-8vw',duration: 1, ease: 'back' }, 5)
       .to('.outer-Slide',{x: '-25vw',duration: 2, ease: 'back' }, 6)
       .to('.outer-Slide',{opacity: 0, rotate: -90, transformOrigin: 'center', y: '30vw', duration: 2, ease: 'ease' }, 6.5)
-      .to('.slide',{opacity: 0, x: '35vw', duration: 1, ease: 'ease' }, 7.5);
+      .to('.slide',{opacity: 0, x: '45vw', duration: 1, ease: 'ease' }, 7.5);
 
       } else {
     tl
