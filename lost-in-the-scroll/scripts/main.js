@@ -217,13 +217,13 @@ document.querySelectorAll('.pin-wrap').forEach(wrap => {
       .to('.outer-Slide',{x: '-4vw',duration: 1, ease: 'back' }, 4)
       .to('.outer-Slide',{x: '-8vw',duration: 1, ease: 'back' }, 5)
       .to('.outer-Slide',{x: '-25vw',duration: 2, ease: 'back' }, 6)
-      .to('.outer-Slide',{opacity: 0, rotate: -90, transformOrigin: 'center', y: '30vw', duration: 2, ease: 'ease' }, 6.5)
-      .to('.slide',{opacity: 0, x: '45vw', duration: 1, ease: 'ease' }, 7.5);
+      .to('.outer-Slide',{opacity: 0, rotate: -50, transformOrigin: 'center', y: '20vw', x: '-70vw', duration: 2, ease: 'ease' }, 6.5)
+      .to('.inner-Slide',{opacity: 0, x: '20vw', duration: 1, ease: 'ease' }, 8);
 
       } else {
     tl
       .to(svgEl,   { opacity: 1,        duration: 1.0 },                    0.0)
-      .to(box,     { opacity: 1, y: 0, duration: 0.8 },                    0.8)
+      .to(box,     { opacity: 1, y: 0, duration: 0.8 },                    0.0)
       .to(kicker,  { opacity: 1,        duration: 0.6 },                    1.0)
       .to(heading, { opacity: 1, y: 0, duration: 1.0, ease: 'power3.out' }, 1.4)
       .to(body,    { opacity: 1, y: 0, duration: 0.8, ease: 'power2.out' }, 2.0)
@@ -244,6 +244,25 @@ document.querySelectorAll('.pin-wrap').forEach(wrap => {
   });
 });
 
+// Section 2
+
+gsap.timeline()
+
+;
+sectionTimelines['section-2']
+  .to('.triangle-Bar',  {x: '0vw', duration: 5, ease: 'back'}, 0.5)
+  .to('.row-Triangle',  {y: 0, stagger: 0.2, duration: 1, ease: 'back'}, 0.0)
+  .to('.staff-End',  {y: '0.01vh', duration: 0.1, ease: 'ease' }, 0.1)
+  .to('.staff-Line', {x: '0vw', stagger: -0.3, duration: 1, ease: 'ease' }, 1.0 )
+  .to('.staff-End',  {scale: 1, duration: 1.3, ease: 'ease' }, 2)
+  .to('.note',       {opacity: 1, y: 0,stagger: 0.5, duration: 1, ease: 'bounce' }, 1.5);
+
+
+
+
+
+
+  
 /* Chapter dot triggers — created AFTER the factory so pin-spacers
    already exist and section heights are correct when positions are
    calculated. */

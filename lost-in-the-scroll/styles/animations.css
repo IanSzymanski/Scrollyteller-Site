@@ -34,3 +34,31 @@
               scale: 0.8;
               opacity: 0;
        }
+/* ============================================================
+       SECTION 2
+       ============================================================ */
+
+         .staff {
+              transform: translate(-2vw,42vh);
+              scale: .95;
+         }
+
+         .staff-Line {
+              transform: translateX(-60vw);
+         }
+         .staff-End {
+              transform: scaleY(0);
+              transform-origin: top;
+         }
+            .note {
+            opacity: 0;
+            transform: translateY(-10vh);
+            }
+       
+       .triangle-Bar {
+              scale: 1.2;
+              transform: translate(10vw, 4vh);
+       }
+       .row-Triangle {
+              transform: translateY(-10vh);
+       }
