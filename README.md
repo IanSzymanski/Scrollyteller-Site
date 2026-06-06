@@ -1,9 +1,11 @@
-# Project 2: Lost in the Scroll
+# The Trombone Journey
 
 Here we are, after all this time I have finally made a Scrollyteller site. Before I dive deeper into it, here are a couple of links:
 
 https://ianszymanski.github.io/Scrollyteller-Site/
 https://github.com/IanSzymanski/Scrollyteller-Site
+
+Tech Stack: HTML, CSS, JS, GSAP, ScrollTrigger,
 
 This site wouldn't be possible without Claude Code. I worked in very close collaboration to develop a sophisticated boilerplate (which caused 90% of my issues but I'll get to that later) as well as ideation on SVG concepts. What was landed on was a scalable model of svg content sections which dynamically changes in length depending on the timeline that is placed in them. This is done by calculating the timeline's duration in seconds and running a calculation to add pinned scroll length to that section. With this, I only had to focus on creating tweens inside the svg section without having to pin and unpin tweens. This process really expedited the creation process, but it didn't come without challenge. Originally, the pinned section length was determined by a manually inputed value per section. The problem is that this value was inadvertently used to calculate a gap between sections. So the longer amount of scroll time in a section, the larger the gap between them. So I made the decision to base the scroll length based off the timeline rather than an input value.
 
