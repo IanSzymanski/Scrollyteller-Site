@@ -11,4 +11,4 @@ Alright, so my metaphor is very close to me. I chose the elements of a trombone 
 
 There are a good amount of accessiblity options included. Obviously there's a style picker, but there is also keyboard suport. Simply use arrow keys up and down to scroll through the experience. Page Up and Page Down skip up and down through the chapters. Speaking of chapters, there are dots on the right side of the screen that indicate what section of the story you are in. Click on a dot to skip to that point in the story. There is also a progress bar on the top of the screen to quickly see your progress.
 
-There is always things to improve. I think that some of the svg elements are a little rough around the edges, there are a few stutters, and mobile isn't the cleanest, but overall the site is in a great state.
+There is always things to improve. I think that some of the svg elements are a little rough around the edges, there are a few stutters, and mobile isn't the cleanest. I also wasn't able to load in SmoothScroller, but overall the site is in a great state.
