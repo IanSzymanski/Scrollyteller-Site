@@ -1,0 +1,16 @@
+/* ============================================================
+       HERO
+       ============================================================ */
+
+       .trombone-Case {
+        opacity: 0;
+        transform: translateY(100px);
+       }
+       .cloud-Back {
+        opacity: 0;
+        transform: translateY(-100px);
+       }
+       .cloud-Front {
+        opacity: 0;
+        transform: translateY(-100px);
+       }

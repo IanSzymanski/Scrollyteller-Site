@@ -46,6 +46,9 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
     'footer'
   ];
   const navEl = document.getElementById('chapter-nav');
+    /* Ensure the chapter nav is the last child of <body> so it reliably
+      stacks above pinned SVG sections in all browsers. */
+    if (navEl && navEl.parentNode !== document.body) document.body.appendChild(navEl);
  
   CHAPTERS.forEach((id, i) => {
     const dot = document.createElement('div');
@@ -82,9 +85,12 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
   gsap.set(['#hero h1', '#hero .hero-subtitle'], { x: -50  });
 
   gsap.timeline({ delay: 0.5 })
+  .to('.cloud-Back', { opacity: 1, y: 0, duration: 1, ease: 'back' }, '-=0.4')
+  .to('.cloud-Front', { opacity: 1, y: 0, duration: 1, ease: 'back' }, '-=0.9')
   .to('#hero h1',             { opacity: 1, x: 0, duration: 0.9, ease: 'power3.out' }, '-=0.4')
   .to('#hero .hero-subtitle', { opacity: 1, x: 0, duration: 0.7, ease: 'power2.out' }, '-=0.4')
-  .to('#hero .scroll-cue',    { opacity: 1, duration: 0.5 }, '+=0.1');
+  .to('.trombone-Case', { opacity: 1, y: 0, duration: 2, transformOrigin: 'left center', rotate: -5, ease: 'back' }, '-=0.4')
+  .to('#hero .scroll-cue',    { opacity: 1, duration: 1, scale: 1, ease: 'bounce' }, '+=0.1');
  
   /* ============================================================
      SECTION FACTORY
@@ -130,7 +136,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
  
     /* Entrance sequence */
     tl.to(svgEl,   { opacity: 1, duration: 0.20 }, 0.00)
-      .to(box,     { opacity: 1, duration: 0.10 }, 0.05)
+      .to(box,     { opacity: 1, y: 0,duration: 0.10 }, 0.05)
       .to(kicker,  { opacity: 1, duration: 0.10 }, 0.08)
       .to(heading, { opacity: 1, y: 0, duration: 0.16, ease: 'power3.out' }, 0.14)
       .to(body,    { opacity: 1, y: 0, duration: 0.14, ease: 'power2.out' }, 0.28);
@@ -207,3 +213,5 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
     ScrollTrigger.getAll().forEach(st => { if (st.vars.scrub) st.vars.scrub = 0; });
     gsap.globalTimeline.timeScale(100);
   });
+
+  

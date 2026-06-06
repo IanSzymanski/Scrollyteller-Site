@@ -60,6 +60,12 @@
       --clr-text-primary:    #f0ece0;
       --clr-text-body:       #a09880;
       --clr-text-muted:      #4a4840;
+
+         /* Defaults for theme-aware tokens (fallbacks if no data-theme set) */
+         --surface-light: var(--yellow-25);
+         --surface-dark:  var(--green-100);
+         --text-primary:  var(--grey-100);
+         --text-secondary: var(--grey-0);
  
       /* Per-section SVG background tints */
       --clr-s1-bg: #0a0f1a;
@@ -85,12 +91,6 @@
          ============================================================ */
       --surface-dark: var(--green-100);
       --surface-light: var(--yellow-25);
-
-      /* ============================================================
-         TEXT COLORS
-         ============================================================ */
-      --text-primary: var(--grey-100);
-      --text-secondary: var(--grey-0);
     }
 
     /* ============================================================
@@ -102,10 +102,4 @@
          ============================================================ */
       --surface-dark: var(--yellow-25);
       --surface-light: var(--green-100);
-
-      /* ============================================================
-         TEXT COLORS (swapped)
-         ============================================================ */
-      --text-primary: var(--grey-0);
-      --text-secondary: var(--grey-100);
     }

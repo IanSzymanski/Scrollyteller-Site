@@ -6,8 +6,8 @@
     html { scroll-behavior: auto; }
  
     body {
-      background: var(--clr-bg);
-      color: var(--clr-text-primary);
+      background: var(--surface-light);
+      color: var(--text-primary);
       font-family: var(--font-body);
       font-size: 16px;
       line-height: 1.7;
@@ -20,9 +20,9 @@
     #progress-bar {
       position: fixed;
       top: 0; left: 0;
-      height: 2px;
+      height: 5px;
       width: 0%;
-      background: var(--clr-accent);
+      background: var(--accent-red);
       z-index: 300;
       pointer-events: none;
       transition: width 0.1s linear;
@@ -36,20 +36,25 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      z-index: 300;
+      z-index: 9999;
+      pointer-events: auto;
     }
+
+    /* Theme toggle */
+
  
     .ch-dot {
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: rgba(255,255,255,0.18);
+      background: black;
       transition: background 0.3s, transform 0.3s;
       cursor: pointer;
+      pointer-events: auto;
     }
  
     .ch-dot.active {
-      background: var(--clr-accent);
+      background: var(--accent-red);
       transform: scale(1.5);
     }
  
@@ -62,7 +67,7 @@
       font-size: clamp(9px, 1.2vw, 11px);
       letter-spacing: 4px;
       text-transform: uppercase;
-      color: var(--clr-accent);
+      color: var(--accent-red);
       margin-bottom: 0.85rem;
       opacity: 0; /* GSAP animates in */
     }
@@ -72,7 +77,7 @@
       font-size: clamp(1.5rem, 3.5vw, 2.6rem);
       font-weight: 700;
       line-height: 1.1;
-      color: var(--clr-text-primary);
+      color: var(--surface-light);
       margin-bottom: 1rem;
       opacity: 0;
       transform: translateY(24px);
@@ -81,7 +86,7 @@
     .section-body {
       font-size: clamp(0.9rem, 1.8vw, 1rem);
       line-height: 1.85;
-      color: var(--clr-text-body);
+      color: var(--text-primary);
       opacity: 0;
       transform: translateY(16px);
     }
@@ -91,13 +96,13 @@
        ============================================================ */
     
     .content-box {
-      -webkit-backdrop-filter: blur(14px);
       backdrop-filter: blur(14px);
       border: none;
       border-radius: 0;
       padding: clamp(1.4rem, 3vw, 2.2rem);
       width: 100%;
       max-width: var(--content-box-width);
+      transform: translateY(24px);
       /* GSAP will animate opacity in — start hidden */
       opacity: 0;
     }
@@ -109,7 +114,7 @@
     97% 100%,
     0% 96%
   );
-  background: var(--yellow-75);
+  background: var(--primary-yellow);
   padding: clamp(2rem, 4vw, 3rem);
 }
 
@@ -121,7 +126,7 @@
     100% 94%,
     3% 100%
   );
-  background: var(--yellow-75);
+  background: var(--primary-yellow);
   padding: clamp(2rem, 4vw, 3rem);
 }
 
@@ -133,7 +138,7 @@
     95% 100%,
     5% 98%
   );
-  background: var(--yellow-75);
+  background: var(--primary-yellow);
   padding: clamp(2rem, 4vw, 3rem);
 }
     /* ============================================================
@@ -247,12 +252,7 @@
       justify-content: center;
       text-align: center;
     }
- 
-    /* Hero SVG fills the whole section */
-    #hero .svg-canvas {
-      background: var(--clr-bg);
-    }
- 
+
     /* Hero text sits above SVG */
  
     #hero h1 {
@@ -262,7 +262,7 @@
       line-height: 1.0;
       color: var(--clr-text-primary);
       max-width: 900px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 5rem;
       opacity: 0;
       transform: translateY(40px);
     }
@@ -273,10 +273,12 @@
     }
     #hero .hero-subtitle {
       opacity: 0;
+      color: var(--grey-0);
+      max-width: 500px;
     }
     #hero .hero-text {
       position: absolute;
-      top: clamp(2rem, 6vh, 4rem);
+      top: clamp(0.75rem, 4vh, 2.5rem);
       left: clamp(1.5rem, 5vw, 4rem);
       z-index: 10;
       display: flex;
@@ -297,6 +299,7 @@
       color: var(--clr-text-muted);
       opacity: 0;
       z-index: 10;
+      transform: scaleY(10);
     }
  
     /* ============================================================
@@ -306,7 +309,6 @@
        ============================================================ */
     .section-gap {
       height: 10vh;              /* adjust: less = tighter transitions */
-      background: var(--clr-bg);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -333,10 +335,6 @@
       align-items: center;
       justify-content: center;
       text-align: center;
-    }
- 
-    #footer .svg-canvas {
-      background: var(--clr-bg);
     }
  
     #footer .footer-text {
