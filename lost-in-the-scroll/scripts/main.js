@@ -95,7 +95,6 @@ document.addEventListener('keydown', e => {
 
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
 /* ============================================================
      CONFIG
      ============================================================ */
